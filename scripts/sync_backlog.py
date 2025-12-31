@@ -4,9 +4,7 @@ import os
 
 def get_issues():
     try:
-        cmd = ["gh", "issue list", "--json", "number,title,state,body,labels", "--limit", "100"]
-        # gh CLI needs the separate arguments
-        cmd = ["gh", "issue", "list", "--json", "number,title,state,body,labels", "--limit", "100"]
+        cmd = ["gh", "issue", "list", "--json", "number,title,state,body,labels,milestone,assignees", "--limit", "100"]
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         return json.loads(result.stdout)
     except Exception as e:
@@ -18,6 +16,11 @@ def format_labels(labels):
         return ""
     return ", ".join([f"`{l['name']}`" for l in labels])
 
+def format_assignees(assignees):
+    if not assignees:
+        return "-"
+    return ", ".join([f"@{a['login']}" for a in assignees])
+
 def generate_markdown(issues):
     md = "# Project Backlog - Enterprise Ontology Library\n\n"
     md += "This document is automatically synchronized with GitHub Issues. Last updated: " 
@@ -25,9 +28,9 @@ def generate_markdown(issues):
     
     # --- 1. MASTER ISSUE LIST (OVERVIEW) ---
     md += "## 📋 Master Issue List\n"
-    md += "Visão geral de todas as demandas, seus estados e marcos.\n\n"
-    md += "| # | Status | Title | Sprint | Milestone |\n"
-    md += "| :--- | :--- | :--- | :--- | :--- |\n"
+    md += "Visão geral de todas as demandas, seus estados e executores.\n\n"
+    md += "| # | Status | Title | Executor | Sprint | Milestone |\n"
+    md += "| :--- | :--- | :--- | :--- | :--- | :--- |\n"
     for i in issues:
         status_icon = "🟢" if i['state'] == 'OPEN' else "✅"
         # Extract Sprint labels
@@ -35,8 +38,10 @@ def generate_markdown(issues):
         sprint_str = ", ".join(sprints) if sprints else "-"
         # Milestone
         milestone = i.get('milestone', {}).get('title', '-') if i.get('milestone') else "-"
+        # Assignees
+        executors = format_assignees(i.get('assignees', []))
         
-        md += f"| {i['number']} | {status_icon} | {i['title']} | {sprint_str} | {milestone} |\n"
+        md += f"| {i['number']} | {status_icon} | {i['title']} | {executors} | {sprint_str} | {milestone} |\n"
     md += "\n---\n\n"
 
     # --- 2. GROUPED BY WORKFLOW STATUS ---
@@ -49,8 +54,9 @@ def generate_markdown(issues):
         if not items:
             md += "_Nenhuma issue neste estado._\n\n"
         for i in items:
-            labels = format_labels([l for l in i.get('labels', []) if not l['name'].startswith('Sprint:')])
-            md += f"- [#{i['number']}] **{i['title']}** {labels}\n"
+            labels = format_labels([l for l in l.get('labels', []) if not l['name'].startswith('Sprint:')] if isinstance(i.get('labels'), list) else [])
+            executors = format_assignees(i.get('assignees', []))
+            md += f"- [#{i['number']}] **{i['title']}** (Executor: {executors})\n"
         md += "\n"
     md += "---\n\n"
 
