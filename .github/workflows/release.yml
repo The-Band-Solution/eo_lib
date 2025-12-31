@@ -35,3 +35,11 @@ jobs:
         generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish to GitHub Packages
+      env:
+        TWINE_USERNAME: ${{ github.actor }}
+        TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        pip install twine
+        python -m twine upload --repository-url https://pypi.pkg.github.com/${{ github.repository_owner }} dist/* --verbose
