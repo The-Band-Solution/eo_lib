@@ -1,0 +1,125 @@
+import sys
+import os
+from datetime import date
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
+
+from eo_lib import PersonController, TeamController, ProjectController
+from eo_lib.infrastructure.database.postgres_client import PostgresClient
+from eo_lib.domain.base import Base # Unified Model Base
+from datetime import date
+
+def setup_database():
+    print("Initializing Database Tables...")
+    client = PostgresClient()
+    # Import all models so Base sees them
+    from eo_lib.domain.entities.person import Person, PersonEmail
+    from eo_lib.domain.entities.team import Team, TeamMember
+    from eo_lib.domain.entities.project import Project
+    
+    Base.metadata.drop_all(client._engine) 
+    Base.metadata.create_all(client._engine)
+
+def main():
+    try:
+        setup_database()
+        
+        person_ctrl = PersonController()
+        team_ctrl = TeamController()
+        project_ctrl = ProjectController()
+
+        print("\n--- 1. PERSON OPERATIONS ---")
+        # Create
+        alice = person_ctrl.create_person(
+            "Alice Programmer", 
+            ["alice@example.com", "alice.work@example.com"],
+            identification_id="ID-001",
+            birthday=date(1990, 5, 15)
+        )
+        bob = person_ctrl.create_person(
+            "Bob Developer", 
+            ["bob@example.com"],
+            identification_id="ID-002",
+            birthday=date(1985, 10, 20)
+        )
+        charlie = person_ctrl.create_person("Charlie Manager", []) # No emails
+        
+        # Note: These objects are now DETACHED because the repository closed the session.
+        # We should only access attributes that were already loaded.
+        print(f"Created Persons: ID {alice.id} ({alice.name}) - ID Card: {alice.identification_id}, Bday: {alice.birthday}")
+        print(f"Created Persons: ID {bob.id} ({bob.name}) - ID Card: {bob.identification_id}, Bday: {bob.birthday}")
+        print(f"Created Persons: ID {charlie.id} ({charlie.name})")
+
+        # List
+        all_people = person_ctrl.list_persons()
+        print(f"Initial People List: {len(all_people)} people found.")
+
+        # Update
+        updated_bob = person_ctrl.update_person(bob.id, name="Bob 'The Builder' Developer", emails=["bob.builder@example.com", "bob@generic.com"])
+        print(f"Updated Bob: {updated_bob.name} (Emails: {[e.email for e in updated_bob.emails]})")
+
+        print("\n--- 2. TEAM OPERATIONS ---")
+        # Create Teams
+        frontend_team = team_ctrl.create_team("Frontend Team", "Specialized in UI/UX")
+        backend_team = team_ctrl.create_team("Backend Team", "Specialized in APIs and DBs")
+        print(f"Teams Created: {frontend_team.name}, {backend_team.name}")
+
+        # Add Members
+        team_ctrl.add_member(frontend_team.id, alice.id, "Lead Developer", start_date=date.today())
+        team_ctrl.add_member(backend_team.id, updated_bob.id, "Senior Engineer", start_date=date.today())
+        team_ctrl.add_member(backend_team.id, charlie.id, "Product Owner", start_date=date.today())
+        
+        print(f"Members added to teams.")
+        
+        # List Members
+        fe_members = team_ctrl.get_members(frontend_team.id)
+        be_members = team_ctrl.get_members(backend_team.id)
+        print(f"Frontend Team ({len(fe_members)} members): {[m.role for m in fe_members]}")
+        print(f"Backend Team ({len(be_members)} members): {[m.role for m in be_members]}")
+
+        print("\n--- 3. PROJECT OPERATIONS ---")
+        # Create Project
+        horizon_project = project_ctrl.create_project(
+            "Horizon Project", 
+            description="A futuristic project to explore the unknown.",
+            start_date=date.today()
+        )
+        print(f"Project Created: {horizon_project.name} (Status: {horizon_project.status})")
+        print(f"Description: {horizon_project.description}")
+        print(f"Start Date: {horizon_project.start_date.date() if horizon_project.start_date else 'N/A'}")
+
+        # Assign Teams to Project
+        project_ctrl.assign_team(horizon_project.id, frontend_team.id)
+        project_ctrl.assign_team(horizon_project.id, backend_team.id)
+        print(f"Teams assigned to {horizon_project.name}.")
+
+        # List Project Teams
+        assigned_teams = project_ctrl.get_teams(horizon_project.id)
+        print(f"Project '{horizon_project.name}' has {len(assigned_teams)} teams.")
+
+        # Update Project Status
+        updated_project = project_ctrl.update_project(horizon_project.id, status="In Progress")
+        print(f"Project Status Updated: {updated_project.status}")
+
+        print("\n--- 4. CLEANUP / DELETION ---")
+        # Delete Charlie
+        person_ctrl.delete_person(charlie.id)
+        print(f"Manager (ID {charlie.id}) Deleted.")
+
+        # Verify remaining people
+        remaining_people = person_ctrl.list_persons()
+        print(f"Remaining People: {[p.name for p in remaining_people]}")
+
+        # Check Backend Team after member deletion
+        be_members_now = team_ctrl.get_members(backend_team.id)
+        print(f"Backend Team now has {len(be_members_now)} members (Charlie should be gone).")
+
+        print("\n--- DEMO COMPLETED SUCCESSFULLY ---")
+
+    except Exception as e:
+        print(f"\nCRITICAL ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+
+if __name__ == "__main__":
+    main()
