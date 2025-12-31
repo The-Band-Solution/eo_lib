@@ -1,6 +1,6 @@
-# eo_lib
+# Enterpprise Ontology Library
 
-**eo_lib** is a robust, strictly architectural Python library designed for managing **Persons**, **Teams**, and **Projects**. It serves as a reference implementation for **Clean Architecture**, **Spec-Driven Development**, **TDD**, and **DRY** principles in Python.
+**Enterpprise Ontology Library** is a robust, strictly architectural Python library designed for managing **Persons**, **Teams**, and **Projects**. It serves as a reference implementation for **Clean Architecture**, **Spec-Driven Development**, **TDD**, and **DRY** principles in Python.
 
 ## 🌟 Features
 
