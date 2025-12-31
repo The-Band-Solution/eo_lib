@@ -44,11 +44,19 @@ Maintain the following artifacts throughout the lifecycle:
     - [ ] **How to Test**: Clear steps for verification.
 
 
-## 6. Merge Standards
+## 6. Release Strategy (CD)
+- [ ] **Promotion**: `developing` -> `main`.
+- [ ] **Trigger**: All tests passed on `developing`.
+- [ ] **Process**:
+    - [ ] Open Pull Request from `developing` to `main`.
+    - [ ] Title Format: `release: <description>`.
+    - [ ] No direct commits to `main` allowed.
+
+## 7. Merge Standards
 - [ ] **Conflict Free**: PR can be merged if there are no conflicts.
 - [ ] **Cleanup**: Delete the feature branch (locally and remotely) after successful merge.
 
-## 7. Definition of Done (DoD)
+## 8. Definition of Done (DoD)
 - [ ] **Verification**:
     - [ ] Test suite passing.
     - [ ] Linting checks passing.
