@@ -23,72 +23,76 @@ def generate_markdown(issues):
     md += "This document is automatically synchronized with GitHub Issues. Last updated: " 
     md += subprocess.run(["date", "+%Y-%m-%d %H:%M:%S"], capture_output=True, text=True).stdout.strip() + "\n\n"
     
-    # --- 1. OVERALL LIST (SUMMARY) ---
-    md += "## 📋 Master Issue List\n\n"
-    md += "| # | Status | Title | Description |\n"
-    md += "| :--- | :--- | :--- | :--- |\n"
+    # --- 1. MASTER ISSUE LIST (OVERVIEW) ---
+    md += "## 📋 Master Issue List\n"
+    md += "Visão geral de todas as demandas, seus estados e marcos.\n\n"
+    md += "| # | Status | Title | Sprint | Milestone |\n"
+    md += "| :--- | :--- | :--- | :--- | :--- |\n"
     for i in issues:
-        status_icon = "🟢" if i['state'] == 'OPEN' else "🔴"
-        # Clean description: first line or snippet
-        desc = i.get('body', '').split('\n')[0].strip()[:100]
-        if not desc: desc = "No description provided."
-        md += f"| {i['number']} | {status_icon} {i['state']} | {i['title']} | {desc}... |\n"
+        status_icon = "🟢" if i['state'] == 'OPEN' else "✅"
+        # Extract Sprint labels
+        sprints = [l['name'].replace('Sprint: ', '') for l in i.get('labels', []) if l['name'].startswith('Sprint:')]
+        sprint_str = ", ".join(sprints) if sprints else "-"
+        # Milestone
+        milestone = i.get('milestone', {}).get('title', '-') if i.get('milestone') else "-"
+        
+        md += f"| {i['number']} | {status_icon} | {i['title']} | {sprint_str} | {milestone} |\n"
     md += "\n---\n\n"
 
-    # --- 2. GROUPED BY STATUS ---
+    # --- 2. GROUPED BY WORKFLOW STATUS ---
     md += "## 📂 Workflow States\n\n"
     
-    # Open Issues
-    open_issues = [i for i in issues if i['state'] == 'OPEN']
-    md += "### 🟢 Open / In Progress\n"
-    if not open_issues:
-        md += "_No open issues._\n\n"
-    for i in open_issues:
-        labels = format_labels(i.get('labels', []))
-        md += f"#### [#{i['number']}] {i['title']}\n"
-        md += f"- **Labels**: {labels}\n"
-        md += f"- **Link**: [View Issue](https://github.com/The-Band-Solution/eo_lib/issues/{i['number']})\n\n"
+    for state in ['OPEN', 'CLOSED']:
+        title = "🟢 In Progress / Todo" if state == 'OPEN' else "✅ Done / Released"
+        items = [i for i in issues if i['state'] == state]
+        md += f"### {title}\n"
+        if not items:
+            md += "_Nenhuma issue neste estado._\n\n"
+        for i in items:
+            labels = format_labels([l for l in i.get('labels', []) if not l['name'].startswith('Sprint:')])
+            md += f"- [#{i['number']}] **{i['title']}** {labels}\n"
+        md += "\n"
+    md += "---\n\n"
 
-    # Closed Issues
-    closed_issues = [i for i in issues if i['state'] == 'CLOSED']
-    md += "### 🔴 Closed / Done\n"
-    if not closed_issues:
-        md += "_No closed issues._\n\n"
-    for i in closed_issues:
-        md += f"- [#{i['number']}] {i['title']}\n"
-    md += "\n---\n\n"
-
-    # --- 3. GROUPED BY SPRINT (MILESTONE) ---
-    md += "## 🏃 Sprints (Milestones)\n\n"
+    # --- 3. GROUPED BY SPRINT (INTERACTIONS) ---
+    md += "## 🏃 Sprints (Interactions)\n"
+    md += "Demandas organizadas por ciclos de execução. Uma issue pode aparecer em múltiplos sprints.\n\n"
     
-    milestones = {}
-    no_milestone = []
-    
+    sprints_map = {}
     for i in issues:
-        m = i.get('milestone')
-        if m:
-            m_title = m.get('title', 'Unknown Milestone')
-            if m_title not in milestones:
-                milestones[m_title] = []
-            milestones[m_title].append(i)
-        else:
-            no_milestone.append(i)
+        sprints = [l['name'] for l in i.get('labels', []) if l['name'].startswith('Sprint:')]
+        if not sprints:
+            if "No Sprint" not in sprints_map: sprints_map["No Sprint"] = []
+            sprints_map["No Sprint"].append(i)
+        for s in sprints:
+            if s not in sprints_map: sprints_map[s] = []
+            sprints_map[s].append(i)
             
-    if not milestones and not no_milestone:
-        md += "_No sprint data available._\n"
-    else:
-        for m_title, m_issues in milestones.items():
-            md += f"### 🗓️ {m_title}\n"
-            for i in m_issues:
-                status_icon = "🟢" if i['state'] == 'OPEN' else "✅"
-                md += f"- {status_icon} [#{i['number']}] {i['title']}\n"
-            md += "\n"
+    # Sort sprints by name
+    for s_name in sorted(sprints_map.keys()):
+        md += f"### 🗓️ {s_name}\n"
+        for i in sprints_map[s_name]:
+            status_icon = "🟢" if i['state'] == 'OPEN' else "✅"
+            md += f"- {status_icon} [#{i['number']}] {i['title']}\n"
+        md += "\n"
+    md += "---\n\n"
+
+    # --- 4. GROUPED BY MILESTONE (DELIVERY MARKS) ---
+    md += "## 🎯 Delivery Marks (Milestones)\n"
+    md += "Grandes entregas e objetivos estratégicos.\n\n"
+    
+    milestones_map = {}
+    for i in issues:
+        m = i.get('milestone', {}).get('title', 'Backlog / No Milestone') if i.get('milestone') else 'Backlog / No Milestone'
+        if m not in milestones_map: milestones_map[m] = []
+        milestones_map[m].append(i)
         
-        if no_milestone:
-            md += "### 📥 No Sprint Assigned\n"
-            for i in no_milestone:
-                status_icon = "🟢" if i['state'] == 'OPEN' else "✅"
-                md += f"- {status_icon} [#{i['number']}] {i['title']}\n"
+    for m_name in sorted(milestones_map.keys()):
+        md += f"### 🏁 {m_name}\n"
+        for i in milestones_map[m_name]:
+            status_icon = "🟢" if i['state'] == 'OPEN' else "✅"
+            md += f"- {status_icon} [#{i['number']}] {i['title']}\n"
+        md += "\n"
     
     return md
 
