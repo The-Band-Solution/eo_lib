@@ -41,7 +41,10 @@ def generate_markdown(issues):
         # Assignees
         executors = format_assignees(i.get('assignees', []))
         
-        md += f"| {i['number']} | {status_icon} | {i['title']} | {executors} | {sprint_str} | {milestone} |\n"
+        # Hyperlinked issue number
+        issue_link = f"[#{i['number']}](https://github.com/The-Band-Solution/eo_lib/issues/{i['number']})"
+        
+        md += f"| {issue_link} | {status_icon} | {i['title']} | {executors} | {sprint_str} | {milestone} |\n"
     md += "\n---\n\n"
 
     # --- 2. GROUPED BY WORKFLOW STATUS ---
@@ -54,9 +57,9 @@ def generate_markdown(issues):
         if not items:
             md += "_Nenhuma issue neste estado._\n\n"
         for i in items:
-            labels = format_labels([l for l in l.get('labels', []) if not l['name'].startswith('Sprint:')] if isinstance(i.get('labels'), list) else [])
             executors = format_assignees(i.get('assignees', []))
-            md += f"- [#{i['number']}] **{i['title']}** (Executor: {executors})\n"
+            issue_link = f"[#{i['number']}](https://github.com/The-Band-Solution/eo_lib/issues/{i['number']})"
+            md += f"- {issue_link} **{i['title']}** (Executor: {executors})\n"
         md += "\n"
     md += "---\n\n"
 
@@ -79,7 +82,8 @@ def generate_markdown(issues):
         md += f"### 🗓️ {s_name}\n"
         for i in sprints_map[s_name]:
             status_icon = "🟢" if i['state'] == 'OPEN' else "✅"
-            md += f"- {status_icon} [#{i['number']}] {i['title']}\n"
+            issue_link = f"[#{i['number']}](https://github.com/The-Band-Solution/eo_lib/issues/{i['number']})"
+            md += f"- {status_icon} {issue_link} {i['title']}\n"
         md += "\n"
     md += "---\n\n"
 
@@ -97,7 +101,8 @@ def generate_markdown(issues):
         md += f"### 🏁 {m_name}\n"
         for i in milestones_map[m_name]:
             status_icon = "🟢" if i['state'] == 'OPEN' else "✅"
-            md += f"- {status_icon} [#{i['number']}] {i['title']}\n"
+            issue_link = f"[#{i['number']}](https://github.com/The-Band-Solution/eo_lib/issues/{i['number']})"
+            md += f"- {status_icon} {issue_link} {i['title']}\n"
         md += "\n"
     
     return md
