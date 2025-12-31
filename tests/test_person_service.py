@@ -1,8 +1,8 @@
 import pytest
 from datetime import date
 from unittest.mock import MagicMock
-from eo_lib.services.person_service import PersonService
-from eo_lib.domain.entities.person import Person
+from eo_lib.services import PersonService
+from eo_lib.domain.entities import Person
 
 @pytest.fixture
 def mock_repo():

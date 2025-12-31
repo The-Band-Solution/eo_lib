@@ -1,8 +1,8 @@
 import pytest
 from unittest.mock import MagicMock
 from datetime import date
-from eo_lib.services.team_service import TeamService
-from eo_lib.domain.entities.team import Team, TeamMember
+from eo_lib.services import TeamService
+from eo_lib.domain.entities import Team, TeamMember
 
 @pytest.fixture
 def mock_repo():
@@ -48,14 +48,16 @@ def test_list_teams(service, mock_repo):
     assert service.list() == []
 
 def test_add_member(service, mock_repo):
-    tm = TeamMember(person_id=1, team_id=1, role="Lead", id=10)
+    mock_role = MagicMock()
+    mock_role.name = "Lead"
+    tm = TeamMember(person_id=1, team_id=1, role=mock_role, id=10)
     mock_repo.add_member.return_value = tm
     
     today = date.today()
-    result = service.add_member(1, 1, "Lead", start_date=today)
+    result = service.add_member(1, 1, role=mock_role, start_date=today)
     
     mock_repo.add_member.assert_called_once()
-    assert result.role == "Lead"
+    assert result.role.name == "Lead"
 
 def test_remove_member(service, mock_repo):
     mock_repo.remove_member.return_value = True

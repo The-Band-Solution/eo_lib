@@ -1,3 +1,10 @@
+"""
+Demonstration script for the eo_lib library.
+
+This script showcases the core functionality of the library, including
+Person, Team, and Project operations using the Controller facades.
+It initializes a clean database for each run.
+"""
 import sys
 import os
 from datetime import date
@@ -7,20 +14,31 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
 from eo_lib import PersonController, TeamController, ProjectController
 from eo_lib.infrastructure.database.postgres_client import PostgresClient
 from eo_lib.domain.base import Base # Unified Model Base
-from datetime import date
 
 def setup_database():
+    """
+    Initializes the database by dropping and recreating all tables.
+    
+    This ensures a clean state for the demonstration.
+    """
     print("Initializing Database Tables...")
     client = PostgresClient()
-    # Import all models so Base sees them
-    from eo_lib.domain.entities.person import Person, PersonEmail
-    from eo_lib.domain.entities.team import Team, TeamMember
-    from eo_lib.domain.entities.project import Project
+    # Import all models from the centralized package
+    from eo_lib.domain.entities import Person, PersonEmail, Team, TeamMember, Project
     
     Base.metadata.drop_all(client._engine) 
     Base.metadata.create_all(client._engine)
 
 def main():
+    """
+    Executes the demonstration workflow.
+    
+    Covers:
+    1. Person creation, listing, and updates.
+    2. Team creation and member management.
+    3. Project creation and team assignment.
+    4. Cleanup and verification.
+    """
     try:
         setup_database()
         
@@ -74,8 +92,8 @@ def main():
         # List Members
         fe_members = team_ctrl.get_members(frontend_team.id)
         be_members = team_ctrl.get_members(backend_team.id)
-        print(f"Frontend Team ({len(fe_members)} members): {[m.role for m in fe_members]}")
-        print(f"Backend Team ({len(be_members)} members): {[m.role for m in be_members]}")
+        print(f"Frontend Team ({len(fe_members)} members): {[m.role.name for m in fe_members]}")
+        print(f"Backend Team ({len(be_members)} members): {[m.role.name for m in be_members]}")
 
         print("\n--- 3. PROJECT OPERATIONS ---")
         # Create Project

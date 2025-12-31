@@ -6,8 +6,20 @@ from datetime import date
 
 class Person(Base):
     """
-    Unified Person Model.
-    Represents an individual in the system.
+    Person Model.
+    
+    Represents an individual within the system. A Person can belong to multiple
+    Organizations, work on multiple Projects, and be a member of various Teams.
+    
+    Attributes:
+        id (int): Unique identifier (Primary Key).
+        name (str): Full name of the person.
+        identification_id (str): Unique identification number (e.g., SSN, Tax ID).
+        birthday (date): Date of birth.
+        organizations (relationship): Many-to-many relationship with Organization entities.
+        projects (relationship): Many-to-many relationship with Project entities.
+        emails (relationship): One-to-many relationship with PersonEmail entities.
+        memberships (relationship): One-to-many relationship with TeamMember associations.
     """
     __tablename__ = "persons"
 
@@ -17,30 +29,44 @@ class Person(Base):
     birthday = Column(Date, nullable=True)
     
     # Relationships
+    organizations = relationship("Organization", secondary="organization_persons", back_populates="persons")
+    projects = relationship("Project", secondary="project_persons", back_populates="persons")
     emails = relationship("PersonEmail", back_populates="person", cascade="all, delete-orphan", lazy="joined")
     memberships = relationship("TeamMember", back_populates="person", cascade="all, delete-orphan")
 
-    def __init__(self, name: str, emails: List[str] = None, identification_id: str = None, birthday: date = None, id: Optional[int] = None):
+    def __init__(self, name: str, emails: List[str] = None, identification_id: str = None, birthday: date = None, organizations: List = None, id: Optional[int] = None):
         """
-        Initialize Person.
+        Initializes a new Person instance.
         
         Args:
-            name (str): Full name.
-            emails (List[str], optional): List of email addresses.
-            identification_id (str, optional): Unique ID.
-            birthday (date, optional): Birth date.
-            id (int, optional): DB ID.
+            name (str): The full name of the person.
+            emails (List[str], optional): A list of email addresses associated with the person. Defaults to None.
+            identification_id (str, optional): A unique identification string. Defaults to None.
+            birthday (date, optional): The person's date of birth. Defaults to None.
+            organizations (List[Organization], optional): Initial list of Organizations the person belongs to. Defaults to None.
+            id (int, optional): Database ID for existing records. Defaults to None.
         """
         self.name = name
         self.identification_id = identification_id
         self.birthday = birthday
+        if organizations:
+            self.organizations = organizations
         if emails:
             self.emails = [PersonEmail(email=e) for e in emails]
         if id: self.id = id
 
 class PersonEmail(Base):
     """
-    Model for Person's emails.
+    PersonEmail Model.
+    
+    Represents an email address associated with a specific Person.
+    Supports multiple emails per Person.
+    
+    Attributes:
+        id (int): Unique identifier (Primary Key).
+        person_id (int): Foreign Key linking to the owner Person.
+        email (str): The email address (unique).
+        person (relationship): Relationship to the owner Person.
     """
     __tablename__ = "person_emails"
 
@@ -51,6 +77,14 @@ class PersonEmail(Base):
     person = relationship("Person", back_populates="emails")
 
     def __init__(self, email: str, person_id: int = None, id: Optional[int] = None):
+        """
+        Initializes a new PersonEmail instance.
+        
+        Args:
+            email (str): The email address string.
+            person_id (int, optional): The ID of the Person this email belongs to. Defaults to None.
+            id (int, optional): Database ID for existing records. Defaults to None.
+        """
         self.email = email
         if person_id: self.person_id = person_id
         if id: self.id = id

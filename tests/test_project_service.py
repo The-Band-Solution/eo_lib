@@ -1,8 +1,7 @@
 import pytest
 from unittest.mock import MagicMock
-from eo_lib.services.project_service import ProjectService
-from eo_lib.domain.entities.project import Project
-from eo_lib.domain.entities.team import Team
+from eo_lib.services import ProjectService
+from eo_lib.domain.entities import Project, Team
 
 @pytest.fixture
 def mock_repo():
