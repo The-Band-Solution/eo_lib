@@ -27,11 +27,11 @@ jobs:
     - name: Build package
       run: hatch build
       
-    - name: Publish to GitHub Packages
-      run: |
-        # Note: This is an example. Real publishing might require more specific auth.
-        # For GitHub Packages:
-        # python -m pip install twine
-        # TWINE_USERNAME=${{ github.actor }} TWINE_PASSWORD=${{ secrets.GITHUB_TOKEN }} \
-        # python -m twine upload --repository-url https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json dist/*
-        echo "Library built successfully. Ready for distribution."
+    - name: Create Release and Upload Assets
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: dist/*
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
