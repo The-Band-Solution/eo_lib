@@ -1,4 +1,6 @@
-from .generic_postgres_repository import GenericPostgresRepository
+from libbase.infrastructure.sql_repository import (
+    GenericSqlRepository as GenericPostgresRepository,
+)
 from .memory_repositories import (
     InMemoryPersonRepository,
     InMemoryTeamRepository,

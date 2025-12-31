@@ -3,13 +3,15 @@ from sqlalchemy.orm import sessionmaker, Session
 from eo_lib.config import Config
 from eo_lib.domain.base import Base
 
+
 class PostgresClient:
     """
     Singleton Database Client for PostgreSQL.
-    
+
     Manages the SQLAlchemy Engine and SessionFactory (SessionLocal) to provide
     thread-safe database access throughout the application.
     """
+
     _instance = None
     _engine = None
     _SessionLocal = None
@@ -17,7 +19,7 @@ class PostgresClient:
     def __new__(cls):
         """
         Ensures only one instance of PostgresClient exists.
-        
+
         Returns:
             PostgresClient: The singleton instance.
         """
@@ -33,17 +35,20 @@ class PostgresClient:
         """
         db_url = Config.get_database_url()
         self._engine = create_engine(db_url, echo=False)
-        self._SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self._engine, expire_on_commit=False)
+        self._SessionLocal = sessionmaker(
+            autocommit=False, autoflush=False, bind=self._engine, expire_on_commit=False
+        )
 
     def get_session(self) -> Session:
         """
         Creates and returns a new SQLAlchemy Session.
-        
+
         Returns:
             Session: A new database session instance.
         """
         if not self._SessionLocal:
             self._initialize()
+        assert self._SessionLocal is not None
         return self._SessionLocal()
 
     def create_tables(self):
@@ -53,4 +58,4 @@ class PostgresClient:
         """
         # Import models here to ensure they are registered with Base
         # We need to define the ORM model for User before calling this
-        pass 
+        pass

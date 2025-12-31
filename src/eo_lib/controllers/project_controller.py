@@ -3,27 +3,31 @@ from eo_lib.factories import ServiceFactory
 from eo_lib.domain.entities.project import Project
 from eo_lib.domain.entities.team import Team
 
+
 class ProjectController:
     """
     Controller for Project-related operations.
-    
+
     Acts as a facade for the ProjectService, providing entry points for
     managing Projects and their organizational structure.
     """
+
     def __init__(self):
         """Initializes the Controller by creating the required ProjectService."""
         self.service = ServiceFactory.create_project_service()
 
-    def create_project(self, name: str, description: str = None, start_date = None, end_date = None) -> Project: 
+    def create_project(
+        self, name: str, description: str = None, start_date=None, end_date=None
+    ) -> Project:
         """
         Creates a new project record.
-        
+
         Args:
             name (str): The project name.
             description (str, optional): Summary of goals. Defaults to None.
             start_date (datetime, optional): Start date. Defaults to None.
             end_date (datetime, optional): End date. Defaults to None.
-            
+
         Returns:
             Project: The newly created Project entity.
         """
@@ -33,7 +37,15 @@ class ProjectController:
         """Retrieves a project by its ID."""
         return self.service.get(id)
 
-    def update_project(self, id: int, name: str = None, status: str = None, description: str = None, start_date = None, end_date = None) -> Project:
+    def update_project(
+        self,
+        id: int,
+        name: str = None,
+        status: str = None,
+        description: str = None,
+        start_date=None,
+        end_date=None,
+    ) -> Project:
         """Updates an existing project record's settings."""
         return self.service.update(id, name, status, description, start_date, end_date)
 

@@ -5,13 +5,14 @@ from eo_lib.domain.entities.project import project_teams
 from datetime import date
 from typing import Optional
 
+
 class Team(Base):
     """
     Team Model.
-    
+
     Represents a collaborative group of Persons within an Organization.
     Teams are assigned to Projects and have specific Members with defined Roles.
-    
+
     Attributes:
         id (int): Unique identifier (Primary Key).
         name (str): Unique name of the team.
@@ -22,24 +23,34 @@ class Team(Base):
         members (relationship): One-to-many relationship with TeamMember associations.
         projects (relationship): many-to-many relationship with Project entities.
     """
+
     __tablename__ = "teams"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True, nullable=False)
     description = Column(Text, nullable=True)
     short_name = Column(String, index=True, nullable=True)
-    
-    organization_id = Column(Integer, ForeignKey('organizations.id'), nullable=True)
+
+    organization_id = Column(Integer, ForeignKey("organizations.id"), nullable=True)
 
     # Relationships
     organization = relationship("Organization", back_populates="teams")
-    members = relationship("TeamMember", back_populates="team", cascade="all, delete-orphan", lazy="joined")
+    members = relationship(
+        "TeamMember", back_populates="team", cascade="all, delete-orphan", lazy="joined"
+    )
     projects = relationship("Project", secondary=project_teams, back_populates="teams")
 
-    def __init__(self, name: str, description: str = None, short_name: str = None, organization_id: Optional[int] = None, id: Optional[int] = None):
+    def __init__(
+        self,
+        name: str,
+        description: Optional[str] = None,
+        short_name: Optional[str] = None,
+        organization_id: Optional[int] = None,
+        id: Optional[int] = None,
+    ):
         """
         Initializes a new Team instance.
-        
+
         Args:
             name (str): Unique name for the team.
             description (str, optional): A brief summary of the team's purpose. Defaults to None.
@@ -51,15 +62,17 @@ class Team(Base):
         self.description = description
         self.short_name = short_name
         self.organization_id = organization_id
-        if id: self.id = id
+        if id:
+            self.id = id
+
 
 class TeamMember(Base):
     """
     TeamMember Model.
-    
+
     An association table representing the participation of a Person in a Team.
     Includes additional relationship metadata such as Role and participation dates.
-    
+
     Attributes:
         id (int): Unique identifier (Primary Key).
         person_id (int): Foreign Key linking to the participant Person.
@@ -71,13 +84,14 @@ class TeamMember(Base):
         team (relationship): Relationship to the parent Team.
         role (relationship): Relationship to the defined Role.
     """
+
     __tablename__ = "team_members"
-    
+
     id = Column(Integer, primary_key=True, index=True)
-    person_id = Column(Integer, ForeignKey('persons.id'), nullable=False)
-    team_id = Column(Integer, ForeignKey('teams.id'), nullable=False)
-    role_id = Column(Integer, ForeignKey('roles.id'), nullable=True)
-    start_date = Column(DateTime, default=func.now()) 
+    person_id = Column(Integer, ForeignKey("persons.id"), nullable=False)
+    team_id = Column(Integer, ForeignKey("teams.id"), nullable=False)
+    role_id = Column(Integer, ForeignKey("roles.id"), nullable=True)
+    start_date = Column(DateTime, default=func.now())
     end_date = Column(DateTime, nullable=True)
 
     # Relationships
@@ -85,10 +99,19 @@ class TeamMember(Base):
     team = relationship("Team", back_populates="members")
     role = relationship("Role", back_populates="team_memberships", lazy="joined")
 
-    def __init__(self, person_id: int, team_id: int, role_id: int = None, role: Optional[object] = None, start_date: date = None, end_date: date = None, id: Optional[int] = None):
+    def __init__(
+        self,
+        person_id: int,
+        team_id: int,
+        role_id: Optional[int] = None,
+        role: Optional[object] = None,
+        start_date: Optional[date] = None,
+        end_date: Optional[date] = None,
+        id: Optional[int] = None,
+    ):
         """
         Initializes a new TeamMember association.
-        
+
         Args:
             person_id (int): ID of the Person joining the team.
             team_id (int): ID of the Team being joined.
@@ -104,9 +127,11 @@ class TeamMember(Base):
         if role:
             if isinstance(role, str):
                 from eo_lib.domain.entities.role import Role
+
                 self.role = Role(name=role)
             else:
                 self.role = role
         self.start_date = start_date
         self.end_date = end_date
-        if id: self.id = id
+        if id:
+            self.id = id

@@ -4,13 +4,14 @@ from eo_lib.domain.base import Base
 from typing import Optional, List
 from datetime import date
 
+
 class Person(Base):
     """
     Person Model.
-    
+
     Represents an individual within the system. A Person can belong to multiple
     Organizations, work on multiple Projects, and be a member of various Teams.
-    
+
     Attributes:
         id (int): Unique identifier (Primary Key).
         name (str): Full name of the person.
@@ -21,23 +22,43 @@ class Person(Base):
         emails (relationship): One-to-many relationship with PersonEmail entities.
         memberships (relationship): One-to-many relationship with TeamMember associations.
     """
+
     __tablename__ = "persons"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     identification_id = Column(String, unique=True, index=True, nullable=True)
     birthday = Column(Date, nullable=True)
-    
-    # Relationships
-    organizations = relationship("Organization", secondary="organization_persons", back_populates="persons")
-    projects = relationship("Project", secondary="project_persons", back_populates="persons")
-    emails = relationship("PersonEmail", back_populates="person", cascade="all, delete-orphan", lazy="joined")
-    memberships = relationship("TeamMember", back_populates="person", cascade="all, delete-orphan")
 
-    def __init__(self, name: str, emails: List[str] = None, identification_id: str = None, birthday: date = None, organizations: List = None, id: Optional[int] = None):
+    # Relationships
+    organizations = relationship(
+        "Organization", secondary="organization_persons", back_populates="persons"
+    )
+    projects = relationship(
+        "Project", secondary="project_persons", back_populates="persons"
+    )
+    emails = relationship(
+        "PersonEmail",
+        back_populates="person",
+        cascade="all, delete-orphan",
+        lazy="joined",
+    )
+    memberships = relationship(
+        "TeamMember", back_populates="person", cascade="all, delete-orphan"
+    )
+
+    def __init__(
+        self,
+        name: str,
+        emails: Optional[List[str]] = None,
+        identification_id: Optional[str] = None,
+        birthday: Optional[date] = None,
+        organizations: Optional[List] = None,
+        id: Optional[int] = None,
+    ):
         """
         Initializes a new Person instance.
-        
+
         Args:
             name (str): The full name of the person.
             emails (List[str], optional): A list of email addresses associated with the person. Defaults to None.
@@ -53,21 +74,24 @@ class Person(Base):
             self.organizations = organizations
         if emails:
             self.emails = [PersonEmail(email=e) for e in emails]
-        if id: self.id = id
+        if id:
+            self.id = id
+
 
 class PersonEmail(Base):
     """
     PersonEmail Model.
-    
+
     Represents an email address associated with a specific Person.
     Supports multiple emails per Person.
-    
+
     Attributes:
         id (int): Unique identifier (Primary Key).
         person_id (int): Foreign Key linking to the owner Person.
         email (str): The email address (unique).
         person (relationship): Relationship to the owner Person.
     """
+
     __tablename__ = "person_emails"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -76,15 +100,19 @@ class PersonEmail(Base):
 
     person = relationship("Person", back_populates="emails")
 
-    def __init__(self, email: str, person_id: int = None, id: Optional[int] = None):
+    def __init__(
+        self, email: str, person_id: Optional[int] = None, id: Optional[int] = None
+    ):
         """
         Initializes a new PersonEmail instance.
-        
+
         Args:
             email (str): The email address string.
             person_id (int, optional): The ID of the Person this email belongs to. Defaults to None.
             id (int, optional): Database ID for existing records. Defaults to None.
         """
         self.email = email
-        if person_id: self.person_id = person_id
-        if id: self.id = id
+        if person_id:
+            self.person_id = person_id
+        if id:
+            self.id = id
