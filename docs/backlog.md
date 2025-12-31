@@ -1,6 +1,6 @@
 # Project Backlog - Enterprise Ontology Library
 
-This document is automatically synchronized with GitHub Issues. Last updated: 2025-12-31 16:48:00
+This document is automatically synchronized with GitHub Issues. Last updated: 2025-12-31 19:17:51
 
 ## 📋 Master Issue List
 Visão geral de todas as demandas, seus estados e executores.
@@ -37,6 +37,8 @@ Demandas organizadas por ciclos de execução. Uma issue pode aparecer em múlti
 
 ### 📥 No Sprint Assigned
 - 🟢 [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) [US] Comprehensive Installation Documentation
+- ✅ [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) Refactor `eo_lib` to use `libbase` as core dependency
+- ✅ [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) [US] Integrate libbase for architectural core components
 - ✅ [#4](https://github.com/The-Band-Solution/eo_lib/issues/4) [US] Automated CI/CD Pipeline for Library Publishing
 - ✅ [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) [Epic] Stable Distribution and Lifecycle Management
 - ✅ [#2](https://github.com/The-Band-Solution/eo_lib/issues/2) SRS and SDD Documentation in English
@@ -49,6 +51,8 @@ Grandes entregas e objetivos estratégicos.
 
 ### 🏁 Backlog / No Milestone
 - 🟢 [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) [US] Comprehensive Installation Documentation
+- ✅ [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) Refactor `eo_lib` to use `libbase` as core dependency
+- ✅ [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) [US] Integrate libbase for architectural core components
 - ✅ [#4](https://github.com/The-Band-Solution/eo_lib/issues/4) [US] Automated CI/CD Pipeline for Library Publishing
 - ✅ [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) [Epic] Stable Distribution and Lifecycle Management
 - ✅ [#2](https://github.com/The-Band-Solution/eo_lib/issues/2) SRS and SDD Documentation in English
@@ -83,14 +87,3 @@ Adoption of `libbase` to promote code reuse and strict definition of the core do
 **Description**:
 Facilitar a adoção da eo_lib fornecendo instruções claras e precisas de instalação a partir dos artefatos oficiais no GitHub.
 
----
-
-### [CLOSED] [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) [Epic] Stable Distribution and Lifecycle Management
-- **Executor**: @paulossjunior
-- **Labels**: `epic`
-- **Milestone**: -
-
-**Description**:
-Estabelecer um ciclo de vida de desenvolvimento robusto (Done = In Production).
-
----
