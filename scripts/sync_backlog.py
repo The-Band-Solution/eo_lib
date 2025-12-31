@@ -112,7 +112,7 @@ def generate_markdown(issues):
     for i in issues:
         state_label = "OPEN" if i['state'] == 'OPEN' else "CLOSED"
         issue_link = f"[#{i['number']}](https://github.com/The-Band-Solution/eo_lib/issues/{i['number']})"
-        md += f"### [{state_label}] [{issue_link}] {i['title']}\n"
+        md += f"### [{state_label}] {issue_link} {i['title']}\n"
         
         executors = format_assignees(i.get('assignees', []))
         labels = format_labels(i.get('labels', []))
