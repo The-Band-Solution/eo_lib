@@ -1,6 +1,6 @@
-# Enterpprise Ontology Library
+# Enterprise Ontology Library
 
-**Enterpprise Ontology Library** is a robust, strictly architectural Python library designed for managing **Persons**, **Teams**, and **Projects**. It serves as a reference implementation for **Clean Architecture**, **Spec-Driven Development**, **TDD**, and **DRY** principles in Python.
+**Enterprise Ontology Library** is a robust, strictly architectural Python library designed for managing **Persons**, **Teams**, and **Projects**. It serves as a reference implementation for **Clean Architecture**, **Spec-Driven Development**, **TDD**, and **DRY** principles in Python.
 
 ## 🌟 Features
 
@@ -18,10 +18,25 @@
 - Python 3.10+
 - PostgreSQL (Optional, defaults to SQLite for dev)
 
-### Setup
+### Direct Installation (Recommended)
+
+You can install `eo_lib` directly from our official releases without cloning the repository. This is the fastest way to start using the library in your projects.
+
+1.  **Install via pip**:
+    Download and install the latest wheel (`.whl`) from our [GitHub Releases](https://github.com/The-Band-Solution/eo_lib/releases):
+
+    ```bash
+    # Install version v0.1.4
+    pip install https://github.com/The-Band-Solution/eo_lib/releases/download/v0.1.4/eo_lib-0.1.4-py3-none-any.whl
+    ```
+
+### Development Setup (Clone)
+
+If you wish to contribute or run the internal demos, clone the repository:
+
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/your-org/eo_lib.git
+    git clone https://github.com/The-Band-Solution/eo_lib.git
     cd eo_lib
     ```
 
@@ -31,11 +46,9 @@
     source .venv/bin/activate
     ```
 
-3.  **Install Dependencies**:
+3.  **Install for development**:
     ```bash
-    pip install .
-    # OR for development (including pytest)
-    pip install .[dev]
+    pip install -e .[dev]
     ```
 
 ## ⚙️ Configuration
