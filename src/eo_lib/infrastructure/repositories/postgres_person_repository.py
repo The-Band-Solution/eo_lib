@@ -1,14 +1,16 @@
 from eo_lib.domain.entities import Person
 from eo_lib.domain.repositories import PersonRepositoryInterface
-from eo_lib.infrastructure.repositories.generic_postgres_repository import GenericPostgresRepository
+from libbase.infrastructure.sql_repository import GenericSqlRepository
 
-class PostgresPersonRepository(GenericPostgresRepository[Person], PersonRepositoryInterface):
+from eo_lib.infrastructure.database.postgres_client import PostgresClient
+
+
+class PostgresPersonRepository(GenericSqlRepository[Person], PersonRepositoryInterface):
     """
     PostgreSQL implementation of the Person Repository.
-    
-    Inherits generic CRUD operations from GenericPostgresRepository and
-    implements the PersonRepositoryInterface contract.
     """
+
     def __init__(self):
-        """Initializes the repository with the Person model."""
-        super().__init__(Person)
+        """Initializes the repository by getting a session from PostgresClient."""
+        client = PostgresClient()
+        super().__init__(client.get_session(), Person)

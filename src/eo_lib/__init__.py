@@ -6,6 +6,11 @@ from eo_lib.domain.entities.team import Team, TeamMember
 from eo_lib.domain.entities.project import Project
 
 __all__ = [
-    "PersonController", "TeamController", "ProjectController", 
-    "Person", "Team", "TeamMember", "Project"
+    "PersonController",
+    "TeamController",
+    "ProjectController",
+    "Person",
+    "Team",
+    "TeamMember",
+    "Project",
 ]

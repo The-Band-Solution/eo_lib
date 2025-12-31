@@ -5,24 +5,27 @@ from typing import List, Optional
 
 # Forward reference for association tables
 project_teams = Table(
-    'project_teams', Base.metadata,
-    Column('project_id', Integer, ForeignKey('projects.id'), primary_key=True),
-    Column('team_id', Integer, ForeignKey('teams.id'), primary_key=True)
+    "project_teams",
+    Base.metadata,
+    Column("project_id", Integer, ForeignKey("projects.id"), primary_key=True),
+    Column("team_id", Integer, ForeignKey("teams.id"), primary_key=True),
 )
 
 project_persons = Table(
-    'project_persons', Base.metadata,
-    Column('project_id', Integer, ForeignKey('projects.id'), primary_key=True),
-    Column('person_id', Integer, ForeignKey('persons.id'), primary_key=True)
+    "project_persons",
+    Base.metadata,
+    Column("project_id", Integer, ForeignKey("projects.id"), primary_key=True),
+    Column("person_id", Integer, ForeignKey("persons.id"), primary_key=True),
 )
+
 
 class Project(Base):
     """
     Project Model.
-    
+
     Represents a planned undertaking within an Organization. Projects can have
     hierarchical structures (sub-projects), and involve multiple Teams and Persons.
-    
+
     Attributes:
         id (int): Unique identifier (Primary Key).
         name (str): Unique name of the project.
@@ -38,6 +41,7 @@ class Project(Base):
         teams (relationship): Many-to-many relationship with Team entities.
         persons (relationship): Many-to-many relationship with Person entities.
     """
+
     __tablename__ = "projects"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -46,21 +50,35 @@ class Project(Base):
     description = Column(Text, nullable=True)
     start_date = Column(DateTime, nullable=True)
     end_date = Column(DateTime, nullable=True)
-    
-    organization_id = Column(Integer, ForeignKey('organizations.id'), nullable=True)
-    parent_id = Column(Integer, ForeignKey('projects.id'), nullable=True)
+
+    organization_id = Column(Integer, ForeignKey("organizations.id"), nullable=True)
+    parent_id = Column(Integer, ForeignKey("projects.id"), nullable=True)
 
     # Relationships
     organization = relationship("Organization", back_populates="projects")
     parent = relationship("Project", remote_side=[id], back_populates="sub_projects")
     sub_projects = relationship("Project", back_populates="parent")
-    teams = relationship("Team", secondary=project_teams, back_populates="projects", lazy="joined")
-    persons = relationship("Person", secondary=project_persons, back_populates="projects")
+    teams = relationship(
+        "Team", secondary=project_teams, back_populates="projects", lazy="joined"
+    )
+    persons = relationship(
+        "Person", secondary=project_persons, back_populates="projects"
+    )
 
-    def __init__(self, name: str, status: str = "active", description: str = None, start_date = None, end_date = None, organization_id: Optional[int] = None, parent_id: Optional[int] = None, id: Optional[int] = None):
+    def __init__(
+        self,
+        name: str,
+        status: str = "active",
+        description: Optional[str] = None,
+        start_date: Optional[DateTime] = None,
+        end_date: Optional[DateTime] = None,
+        organization_id: Optional[int] = None,
+        parent_id: Optional[int] = None,
+        id: Optional[int] = None,
+    ):
         """
         Initializes a new Project instance.
-        
+
         Args:
             name (str): The name of the project.
             status (str): The current status of the project. Defaults to "active".
@@ -78,4 +96,5 @@ class Project(Base):
         self.end_date = end_date
         self.organization_id = organization_id
         self.parent_id = parent_id
-        if id: self.id = id
+        if id:
+            self.id = id

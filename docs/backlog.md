@@ -7,29 +7,42 @@ Visão geral de todas as demandas, seus estados e executores.
 
 | # | Status | Title | Executor | Sprint | Milestone |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) | 🟢 | Refactor `eo_lib` to use `libbase` as core dependency | - | - | - |
-| [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) | 🟢 | [US] Integrate libbase for architectural core components | - | - | - |
+| [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) | ✅ | Refactor `eo_lib` to use `libbase` as core dependency | @paulossjunior | - | - |
+| [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) | ✅ | [US] Integrate libbase for architectural core components | @paulossjunior | - | - |
+| [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) | 🟢 | [US] Comprehensive Installation Documentation | @paulossjunior | - | - |
+| [#4](https://github.com/The-Band-Solution/eo_lib/issues/4) | ✅ | [US] Automated CI/CD Pipeline for Library Publishing | @paulossjunior | - | - |
+| [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) | ✅ | [Epic] Stable Distribution and Lifecycle Management | @paulossjunior | - | - |
+| [#2](https://github.com/The-Band-Solution/eo_lib/issues/2) | ✅ | SRS and SDD Documentation in English | @paulossjunior | - | - |
+| [#1](https://github.com/The-Band-Solution/eo_lib/issues/1) | ✅ | Fix DetachedInstanceError in demo script | @paulossjunior | - | - |
 
 ---
 
 ## 📂 Workflow States
 
 ### 🟢 In Progress / Todo
-- [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) **Refactor `eo_lib` to use `libbase` as core dependency** (Executor: -)
-- [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) **[US] Integrate libbase for architectural core components** (Executor: -)
+- [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) **[US] Comprehensive Installation Documentation** (Executor: @paulossjunior)
 
 ### ✅ Done / Released
-_Nenhuma issue neste estado._
-
+- [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) **Refactor `eo_lib` to use `libbase` as core dependency** (Executor: @paulossjunior)
+- [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) **[US] Integrate libbase for architectural core components** (Executor: @paulossjunior)
+- [#4](https://github.com/The-Band-Solution/eo_lib/issues/4) **[US] Automated CI/CD Pipeline for Library Publishing** (Executor: @paulossjunior)
+- [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) **[Epic] Stable Distribution and Lifecycle Management** (Executor: @paulossjunior)
+- [#2](https://github.com/The-Band-Solution/eo_lib/issues/2) **SRS and SDD Documentation in English** (Executor: @paulossjunior)
+- [#1](https://github.com/The-Band-Solution/eo_lib/issues/1) **Fix DetachedInstanceError in demo script** (Executor: @paulossjunior)
 
 ---
 
 ## 🏃 Sprints (Interactions)
 Demandas organizadas por ciclos de execução. Uma issue pode aparecer em múltiplos sprints.
 
-### 🗓️ No Sprint
-- 🟢 [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) Refactor `eo_lib` to use `libbase` as core dependency
-- 🟢 [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) [US] Integrate libbase for architectural core components
+### 📥 No Sprint Assigned
+- 🟢 [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) [US] Comprehensive Installation Documentation
+- ✅ [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) Refactor `eo_lib` to use `libbase` as core dependency
+- ✅ [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) [US] Integrate libbase for architectural core components
+- ✅ [#4](https://github.com/The-Band-Solution/eo_lib/issues/4) [US] Automated CI/CD Pipeline for Library Publishing
+- ✅ [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) [Epic] Stable Distribution and Lifecycle Management
+- ✅ [#2](https://github.com/The-Band-Solution/eo_lib/issues/2) SRS and SDD Documentation in English
+- ✅ [#1](https://github.com/The-Band-Solution/eo_lib/issues/1) Fix DetachedInstanceError in demo script
 
 ---
 
@@ -37,40 +50,40 @@ Demandas organizadas por ciclos de execução. Uma issue pode aparecer em múlti
 Grandes entregas e objetivos estratégicos.
 
 ### 🏁 Backlog / No Milestone
-- 🟢 [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) Refactor `eo_lib` to use `libbase` as core dependency
-- 🟢 [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) [US] Integrate libbase for architectural core components
+- 🟢 [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) [US] Comprehensive Installation Documentation
+- ✅ [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) Refactor `eo_lib` to use `libbase` as core dependency
+- ✅ [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) [US] Integrate libbase for architectural core components
+- ✅ [#4](https://github.com/The-Band-Solution/eo_lib/issues/4) [US] Automated CI/CD Pipeline for Library Publishing
+- ✅ [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) [Epic] Stable Distribution and Lifecycle Management
+- ✅ [#2](https://github.com/The-Band-Solution/eo_lib/issues/2) SRS and SDD Documentation in English
+- ✅ [#1](https://github.com/The-Band-Solution/eo_lib/issues/1) Fix DetachedInstanceError in demo script
 
 ---
 
 ## 📝 Detailed Backlog
 Detalhamento completo de cada issue.
 
-### [OPEN] [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) Refactor `eo_lib` to use `libbase` as core dependency
-- **Executor**: -
-- **Labels**: `enhancement`, `refactor`
+### [CLOSED] [#7](https://github.com/The-Band-Solution/eo_lib/issues/7) Refactor `eo_lib` to use `libbase` as core dependency
+- **Executor**: @paulossjunior
+- **Labels**: `refactor`, `enhancement`
 - **Milestone**: -
 
 **Description**:
-Offload architectural patterns (Generic Repositories, Entities, and Strategy implementations) to `libbase` to ensure consistency and reuse.
+Substitution of local generic repositories with `libbase` library components.
 
-### Tasks:
-- Install `libbase` v0.1.0 from GitHub.
-- Replace local generic implementations in `src/eo_lib/{domain,infrastructure}/`.
-- Update `pyproject.toml` ...
-
----
-
-### [OPEN] [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) [US] Integrate libbase for architectural core components
-- **Executor**: -
-- **Labels**: `refactor`, `user story`
+### [CLOSED] [#6](https://github.com/The-Band-Solution/eo_lib/issues/6) [US] Integrate libbase for architectural core components
+- **Executor**: @paulossjunior
+- **Labels**: `user story`, `refactor`
 - **Milestone**: -
 
 **Description**:
-🎯 **Objetivo:**
-Substituir as classes genéricas locais (`GenericRepositoryInterface`, `GenericPostgresRepository`) pela biblioteca externa `libbase` para promover a reusabilidade e manter o foco da `eo_lib` no domínio de Ontologia Empresarial.
+Adoption of `libbase` to promote code reuse and strict definition of the core domain.
 
-💡 **Benefícios:**
-*   **Reusabilidade**: Utiliza padrõe...
+### [OPEN] [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) [US] Comprehensive Installation Documentation
+- **Executor**: @paulossjunior
+- **Labels**: `user story`, `documentation`
+- **Milestone**: -
 
----
+**Description**:
+Facilitar a adoção da eo_lib fornecendo instruções claras e precisas de instalação a partir dos artefatos oficiais no GitHub.
 

@@ -17,10 +17,25 @@ dependencies = [
     "psycopg2-binary>=2.9.0",
     "pydantic>=2.0.0",
     "python-dotenv>=1.0.0",
+    "libbase @ git+https://github.com/The-Band-Solution/libbase.git@v0.1.0",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest", "pytest-cov", "black", "mypy"]
 
+[tool.hatch.metadata]
+allow-direct-references = true
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/eo_lib"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+check_untyped_defs = true
+implicit_optional = true
+disable_error_code = ["assignment"]
+
+[[tool.mypy.overrides]]
+module = "libbase.*"
+ignore_missing_imports = true
