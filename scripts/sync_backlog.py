@@ -104,6 +104,29 @@ def generate_markdown(issues):
             issue_link = f"[#{i['number']}](https://github.com/The-Band-Solution/eo_lib/issues/{i['number']})"
             md += f"- {status_icon} {issue_link} {i['title']}\n"
         md += "\n"
+    md += "---\n\n"
+
+    # --- 5. DETAILED BACKLOG ---
+    md += "## 📝 Detailed Backlog\n"
+    md += "Detalhamento completo de cada issue.\n\n"
+    for i in issues:
+        state_label = "OPEN" if i['state'] == 'OPEN' else "CLOSED"
+        issue_link = f"[#{i['number']}](https://github.com/The-Band-Solution/eo_lib/issues/{i['number']})"
+        md += f"### [{state_label}] [{issue_link}] {i['title']}\n"
+        
+        executors = format_assignees(i.get('assignees', []))
+        labels = format_labels(i.get('labels', []))
+        milestone = i.get('milestone', {}).get('title', '-') if i.get('milestone') else "-"
+        
+        md += f"- **Executor**: {executors}\n"
+        md += f"- **Labels**: {labels}\n"
+        md += f"- **Milestone**: {milestone}\n"
+        
+        # Add body snippet if exists
+        if i.get('body'):
+            body_snippet = i['body'][:300] + "..." if len(i['body']) > 300 else i['body']
+            md += f"\n**Description**:\n{body_snippet}\n"
+        md += "\n---\n\n"
     
     return md
 
