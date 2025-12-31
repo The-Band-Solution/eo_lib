@@ -2,6 +2,13 @@
 
 This document is automatically synchronized with GitHub Issues. Last updated: 2025-12-31 19:17:51
 
+## 🚀 Releases
+| PR # | Description | Commit |
+| :--- | :--- | :--- |
+| [#12](https://github.com/The-Band-Solution/eo_lib/pull/12) | docs: enforce documentation first rule | [afe61e8](https://github.com/The-Band-Solution/eo_lib/commit/afe61e8) |
+| [#11](https://github.com/The-Band-Solution/eo_lib/pull/11) | docs: add Release Strategy to agile standards | [ba98dab](https://github.com/The-Band-Solution/eo_lib/commit/ba98dab) |
+| [#9](https://github.com/The-Band-Solution/eo_lib/pull/9) | docs: implement GitFlow standards | [de1b7d1](https://github.com/The-Band-Solution/eo_lib/commit/de1b7d1) |
+
 ## 📋 Master Issue List
 Visão geral de todas as demandas, seus estados e executores.
 

@@ -31,6 +31,10 @@ Before moving a task to "In Progress":
 Maintain the following artifacts throughout the lifecycle:
 - [ ] `task.md`: For detailed task tracking.
 - [ ] `implementation_plan.md`: For technical planning and review.
+- [ ] `docs/backlog.md`: Must include **Releases** section with:
+    - PR Number & Link
+    - Description
+    - Commit SHA & Link
 
 ## 4. Implementation Standards
 - [ ] **TDD**: Code must pass all tests.
