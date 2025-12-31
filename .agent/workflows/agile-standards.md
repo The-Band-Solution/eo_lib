@@ -25,6 +25,11 @@ Before moving a task to "In Progress":
     - [ ] **Draft**: Provide technical proposal/text to the user.
     - [ ] **Approval**: Mandatory user approval before proceeding.
     - [ ] **Create**: Create the issue on GitHub ONLY after approval.
+    - [ ] **Fields Requirement**:
+        - [ ] **Label**: Must be set.
+        - [ ] **Type**: Must be set.
+        - [ ] **Milestone**: Must be set.
+        - [ ] **Project**: Must be set to "The Band Project".
     - [ ] **Start**: Begin programming only after issue creation.
 
 ## 3. Artifact Maintenance

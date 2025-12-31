@@ -1,9 +1,9 @@
 from .person_service import PersonService
-from .project_service import ProjectService
+from .initiative_service import InitiativeService
 from .team_service import TeamService
 
 __all__ = [
     "PersonService",
-    "ProjectService",
+    "InitiativeService",
     "TeamService",
 ]

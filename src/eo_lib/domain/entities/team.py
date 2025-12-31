@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, func
 from sqlalchemy.orm import relationship
 from eo_lib.domain.base import Base
-from eo_lib.domain.entities.project import project_teams
+from eo_lib.domain.entities.initiative import initiative_teams
 from datetime import date
 from typing import Optional
 
@@ -11,7 +11,7 @@ class Team(Base):
     Team Model.
 
     Represents a collaborative group of Persons within an Organization.
-    Teams are assigned to Projects and have specific Members with defined Roles.
+    Teams are assigned to Initiatives and have specific Members with defined Roles.
 
     Attributes:
         id (int): Unique identifier (Primary Key).
@@ -21,7 +21,7 @@ class Team(Base):
         organization_id (int): Foreign Key linking to the parent Organization.
         organization (relationship): Relationship to the parent Organization.
         members (relationship): One-to-many relationship with TeamMember associations.
-        projects (relationship): many-to-many relationship with Project entities.
+        initiatives (relationship): many-to-many relationship with Initiative entities.
     """
 
     __tablename__ = "teams"
@@ -38,7 +38,9 @@ class Team(Base):
     members = relationship(
         "TeamMember", back_populates="team", cascade="all, delete-orphan", lazy="joined"
     )
-    projects = relationship("Project", secondary=project_teams, back_populates="teams")
+    initiatives = relationship(
+        "Initiative", secondary=initiative_teams, back_populates="teams"
+    )
 
     def __init__(
         self,

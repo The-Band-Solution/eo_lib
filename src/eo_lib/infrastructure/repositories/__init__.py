@@ -4,26 +4,32 @@ from libbase.infrastructure.sql_repository import (
 from .memory_repositories import (
     InMemoryPersonRepository,
     InMemoryTeamRepository,
-    InMemoryProjectRepository,
+    InMemoryInitiativeRepository,
+    InMemoryInitiativeTypeRepository,
 )
 from .json_repositories import (
     JsonPersonRepository,
     JsonTeamRepository,
-    JsonProjectRepository,
+    JsonInitiativeRepository,
+    JsonInitiativeTypeRepository,
 )
 from .postgres_person_repository import PostgresPersonRepository
-from .postgres_project_repository import PostgresProjectRepository
+from .postgres_initiative_repository import PostgresInitiativeRepository
+from .postgres_initiative_type_repository import PostgresInitiativeTypeRepository
 from .postgres_team_repository import PostgresTeamRepository
 
 __all__ = [
     "GenericPostgresRepository",
     "InMemoryPersonRepository",
     "InMemoryTeamRepository",
-    "InMemoryProjectRepository",
+    "InMemoryInitiativeRepository",
+    "InMemoryInitiativeTypeRepository",
     "JsonPersonRepository",
     "JsonTeamRepository",
-    "JsonProjectRepository",
+    "JsonInitiativeRepository",
+    "JsonInitiativeTypeRepository",
     "PostgresPersonRepository",
-    "PostgresProjectRepository",
+    "PostgresInitiativeRepository",
+    "PostgresInitiativeTypeRepository",
     "PostgresTeamRepository",
 ]

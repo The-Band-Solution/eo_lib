@@ -2,17 +2,17 @@
 Demonstration script for the eo_lib library.
 
 This script showcases the core functionality of the library, including
-Person, Team, and Project operations using the Controller facades.
+Person, Team, and Initiative operations using the Controller facades.
 It initializes a clean database for each run.
 """
 
 import sys
 import os
-from datetime import date
+from datetime import date, datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../src"))
 
-from eo_lib import PersonController, TeamController, ProjectController
+from eo_lib import PersonController, TeamController, InitiativeController
 from eo_lib.infrastructure.database.postgres_client import PostgresClient
 from eo_lib.domain.base import Base  # Unified Model Base
 
@@ -26,7 +26,14 @@ def setup_database():
     print("Initializing Database Tables...")
     client = PostgresClient()
     # Import all models from the centralized package
-    from eo_lib.domain.entities import Person, PersonEmail, Team, TeamMember, Project
+    from eo_lib.domain.entities import (
+        Person,
+        PersonEmail,
+        Team,
+        TeamMember,
+        Initiative,
+        InitiativeType,
+    )
 
     Base.metadata.drop_all(client._engine)
     Base.metadata.create_all(client._engine)
@@ -39,7 +46,7 @@ def main():
     Covers:
     1. Person creation, listing, and updates.
     2. Team creation and member management.
-    3. Project creation and team assignment.
+    3. Initiative creation and team assignment.
     4. Cleanup and verification.
     """
     try:
@@ -47,7 +54,7 @@ def main():
 
         person_ctrl = PersonController()
         team_ctrl = TeamController()
-        project_ctrl = ProjectController()
+        initiative_ctrl = InitiativeController()
 
         print("\n--- 1. PERSON OPERATIONS ---")
         # Create
@@ -65,8 +72,6 @@ def main():
         )
         charlie = person_ctrl.create_person("Charlie Manager", [])  # No emails
 
-        # Note: These objects are now DETACHED because the repository closed the session.
-        # We should only access attributes that were already loaded.
         print(
             f"Created Persons: ID {alice.id} ({alice.name}) - ID Card: {alice.identification_id}, Bday: {alice.birthday}"
         )
@@ -120,35 +125,44 @@ def main():
             f"Backend Team ({len(be_members)} members): {[m.role.name for m in be_members]}"
         )
 
-        print("\n--- 3. PROJECT OPERATIONS ---")
-        # Create Project
-        horizon_project = project_ctrl.create_project(
-            "Horizon Project",
-            description="A futuristic project to explore the unknown.",
+        print("\n--- 3. INITIATIVE OPERATIONS ---")
+        # Create Initiative Type
+        strategic_type = initiative_ctrl.create_initiative_type(
+            "Strategic", "High priority long term"
+        )
+        print(f"Initiative Type Created: {strategic_type['name']}")
+
+        # Create Initiative
+        # Note: DTO returns dict, verify struct.
+        horizon_initiative = initiative_ctrl.create_initiative(
+            "Horizon Initiative",
+            description="A futuristic initiative to explore the unknown.",
             start_date=date.today(),
+            initiative_type_name="Strategic",
         )
         print(
-            f"Project Created: {horizon_project.name} (Status: {horizon_project.status})"
+            f"Initiative Created: {horizon_initiative['name']} (Status: {horizon_initiative['status']})"
         )
-        print(f"Description: {horizon_project.description}")
+        print(f"Description: {horizon_initiative['description']}")
+        print(f"Type: {horizon_initiative['initiative_type']}")
+
+        # Assign Teams to Initiative
+        initiative_ctrl.assign_team(horizon_initiative["id"], frontend_team.id)
+        initiative_ctrl.assign_team(horizon_initiative["id"], backend_team.id)
+        print(f"Teams assigned to {horizon_initiative['name']}.")
+
+        # List Initiative Teams
+        assigned_teams = initiative_ctrl.get_teams(horizon_initiative["id"])
         print(
-            f"Start Date: {horizon_project.start_date if horizon_project.start_date else 'N/A'}"
+            f"Initiative '{horizon_initiative['name']}' has {len(assigned_teams)} teams."
         )
 
-        # Assign Teams to Project
-        project_ctrl.assign_team(horizon_project.id, frontend_team.id)
-        project_ctrl.assign_team(horizon_project.id, backend_team.id)
-        print(f"Teams assigned to {horizon_project.name}.")
-
-        # List Project Teams
-        assigned_teams = project_ctrl.get_teams(horizon_project.id)
-        print(f"Project '{horizon_project.name}' has {len(assigned_teams)} teams.")
-
-        # Update Project Status
-        updated_project = project_ctrl.update_project(
-            horizon_project.id, status="In Progress"
+        # Update Initiative Status
+        # Update method returns DTO
+        updated_initiative = initiative_ctrl.update_initiative(
+            horizon_initiative["id"], status="In Progress"
         )
-        print(f"Project Status Updated: {updated_project.status}")
+        print(f"Initiative Status Updated: {updated_initiative['status']}")
 
         print("\n--- 4. CLEANUP / DELETION ---")
         # Delete Charlie
