@@ -28,7 +28,16 @@ Maintain the following artifacts throughout the lifecycle:
 - [ ] **Style**: Code must pass `black`, `flake8`, `isort`.
 - [ ] **Business Logic**: All business rules requirements must be satisfied and verified.
 
-## 4. Definition of Done (DoD)
+## 4. Pull Request Standards
+- [ ] **Process**:
+    - [ ] Create PR from feature branch targeting `main`.
+    - [ ] **Template**: Use `.github/pull_request_template.md`.
+- [ ] **Content Requirements**:
+    - [ ] **Related Issues**: List linked issues (e.g., `Closes #1`).
+    - [ ] **Modifications**: Detailed list of technical changes.
+    - [ ] **How to Test**: Clear steps for verification.
+
+## 5. Definition of Done (DoD)
 - [ ] **Verification**:
     - [ ] Test suite passing.
     - [ ] Linting checks passing.
