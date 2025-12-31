@@ -1,42 +1,76 @@
-# Backlog - Enterprise Ontology Library
+# Project Backlog - Enterprise Ontology Library
 
-This document provides a snapshot of the project's backlog. It includes Epics, User Stories, and Tasks tracked on GitHub.
+This document is automatically synchronized with GitHub Issues. Last updated: 2025-12-31 16:48:00
 
-## 📊 Summary
-| Status | Count |
-| :--- | :--- |
-| 🟢 Open | 1 |
-| 🔴 Closed | 4 |
+## 📋 Master Issue List
+Visão geral de todas as demandas, seus estados e executores.
+
+| # | Status | Title | Executor | Sprint | Milestone |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) | 🟢 | [US] Comprehensive Installation Documentation | @paulossjunior | - | - |
+| [#4](https://github.com/The-Band-Solution/eo_lib/issues/4) | ✅ | [US] Automated CI/CD Pipeline for Library Publishing | @paulossjunior | - | - |
+| [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) | ✅ | [Epic] Stable Distribution and Lifecycle Management | @paulossjunior | - | - |
+| [#2](https://github.com/The-Band-Solution/eo_lib/issues/2) | ✅ | SRS and SDD Documentation in English | @paulossjunior | - | - |
+| [#1](https://github.com/The-Band-Solution/eo_lib/issues/1) | ✅ | Fix DetachedInstanceError in demo script | @paulossjunior | - | - |
 
 ---
 
-## 🚀 Active Backlog
+## 📂 Workflow States
 
-### [OPEN] [#5] [US] Comprehensive Installation Documentation
-- **Description**: Facilitar a adoção da eo_lib fornecendo instruções claras e precisas de instalação a partir dos artefatos oficiais no GitHub.
-- **Workflow State**: `In Progress / Final Review`
+### 🟢 In Progress / Todo
+- [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) **[US] Comprehensive Installation Documentation** (Executor: @paulossjunior)
+
+### ✅ Done / Released
+- [#4](https://github.com/The-Band-Solution/eo_lib/issues/4) **[US] Automated CI/CD Pipeline for Library Publishing** (Executor: @paulossjunior)
+- [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) **[Epic] Stable Distribution and Lifecycle Management** (Executor: @paulossjunior)
+- [#2](https://github.com/The-Band-Solution/eo_lib/issues/2) **SRS and SDD Documentation in English** (Executor: @paulossjunior)
+- [#1](https://github.com/The-Band-Solution/eo_lib/issues/1) **Fix DetachedInstanceError in demo script** (Executor: @paulossjunior)
+
+---
+
+## 🏃 Sprints (Interactions)
+Demandas organizadas por ciclos de execução. Uma issue pode aparecer em múltiplos sprints.
+
+### 📥 No Sprint Assigned
+- 🟢 [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) [US] Comprehensive Installation Documentation
+- ✅ [#4](https://github.com/The-Band-Solution/eo_lib/issues/4) [US] Automated CI/CD Pipeline for Library Publishing
+- ✅ [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) [Epic] Stable Distribution and Lifecycle Management
+- ✅ [#2](https://github.com/The-Band-Solution/eo_lib/issues/2) SRS and SDD Documentation in English
+- ✅ [#1](https://github.com/The-Band-Solution/eo_lib/issues/1) Fix DetachedInstanceError in demo script
+
+---
+
+## 🎯 Delivery Marks (Milestones)
+Grandes entregas e objetivos estratégicos.
+
+### 🏁 Backlog / No Milestone
+- 🟢 [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) [US] Comprehensive Installation Documentation
+- ✅ [#4](https://github.com/The-Band-Solution/eo_lib/issues/4) [US] Automated CI/CD Pipeline for Library Publishing
+- ✅ [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) [Epic] Stable Distribution and Lifecycle Management
+- ✅ [#2](https://github.com/The-Band-Solution/eo_lib/issues/2) SRS and SDD Documentation in English
+- ✅ [#1](https://github.com/The-Band-Solution/eo_lib/issues/1) Fix DetachedInstanceError in demo script
+
+---
+
+## 📝 Detailed Backlog
+Detalhamento completo de cada issue.
+
+### [OPEN] [#5](https://github.com/The-Band-Solution/eo_lib/issues/5) [US] Comprehensive Installation Documentation
+- **Executor**: @paulossjunior
 - **Labels**: `user story`, `documentation`
+- **Milestone**: -
+
+**Description**:
+Facilitar a adoção da eo_lib fornecendo instruções claras e precisas de instalação a partir dos artefatos oficiais no GitHub.
 
 ---
 
-## ✅ Completed
+### [CLOSED] [#3](https://github.com/The-Band-Solution/eo_lib/issues/3) [Epic] Stable Distribution and Lifecycle Management
+- **Executor**: @paulossjunior
+- **Labels**: `epic`
+- **Milestone**: -
 
-### [CLOSED] [#3] [Epic] Stable Distribution and Lifecycle Management
-- **Description**: Estabelecer um ciclo de vida de desenvolvimento robusto (Done = In Production).
-- **Workflow State**: `Done`
-
-### [CLOSED] [#4] [US] Automated CI/CD Pipeline for Library Publishing
-- **Description**: Configurar GitHub Actions para testes e publicação automática.
-- **Workflow State**: `Done`
-
-### [CLOSED] [#2] SRS and SDD Documentation in English
-- **Description**: Tradução e padronização de toda a documentação requisitos e design.
-- **Workflow State**: `Done`
-
-### [CLOSED] [#1] Fix DetachedInstanceError in demo script
-- **Description**: Implementação de Eager Loading para resolver problemas de sessão no SQLAlchemy.
-- **Workflow State**: `Done`
+**Description**:
+Estabelecer um ciclo de vida de desenvolvimento robusto (Done = In Production).
 
 ---
-> [!TIP]
-> **Manual de Atualização**: Este arquivo deve ser atualizado periodicamente para refletir o estado real do projeto no GitHub. Sugerimos a automação via GitHub Action.
