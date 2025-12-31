@@ -1,11 +1,11 @@
-from typing import List, Optional, TypeVar, Generic
+from typing import List, Optional
 from eo_lib.domain.repositories import (
-    GenericRepositoryInterface,
     PersonRepositoryInterface,
     TeamRepositoryInterface,
-    ProjectRepositoryInterface,
+    InitiativeRepository,
+    InitiativeTypeRepository,
 )
-from eo_lib.domain.entities import Person, Team, TeamMember, Project
+from eo_lib.domain.entities import Person, Team, TeamMember, Initiative, InitiativeType
 
 from libbase.infrastructure.memory_repository import GenericMemoryRepository
 
@@ -52,40 +52,28 @@ class InMemoryTeamRepository(GenericMemoryRepository[Team], TeamRepositoryInterf
         return [m for m in self._members.values() if m.team_id == team_id]
 
 
-class InMemoryProjectRepository(
-    GenericMemoryRepository[Project], ProjectRepositoryInterface
+class InMemoryInitiativeRepository(
+    GenericMemoryRepository[Initiative], InitiativeRepository
 ):
     """
-    In-Memory implementation of the Project Repository.
+    In-Memory implementation of the Initiative Repository.
     """
 
     def __init__(self):
-        """Initializes the project repository and team assignment store."""
-        super().__init__(Project)
-        # Simplified handling for Many-to-Many in memory without full ORM simulation
-        self._proj_teams = {}
+        """Initializes the initiative repository."""
+        super().__init__(Initiative)
 
-    def add_team_to_project(self, project_id: int, team_id: int) -> None:
-        """
-        Assigns a team to a project in memory.
 
-        Args:
-            project_id (int): ID of the project.
-            team_id (int): ID of the team to assign.
-        """
-        if project_id not in self._proj_teams:
-            self._proj_teams[project_id] = []
-        self._proj_teams[project_id].append(team_id)
+class InMemoryInitiativeTypeRepository(
+    GenericMemoryRepository[InitiativeType], InitiativeTypeRepository
+):
+    """
+    In-Memory implementation of the Initiative Type Repository.
+    """
 
-    def get_teams(self, project_id: int) -> List[Team]:
-        """
-        Retrieves assigned teams. (Note: Current limited implementation returns empty).
+    def __init__(self):
+        """Initializes the initiative type repository."""
+        super().__init__(InitiativeType)
 
-        Args:
-            project_id (int): ID of the project.
-
-        Returns:
-            List[Team]: Empty list (current limitation).
-        """
-        # Limitations of simple memory repo: cannot easily join with TeamRepo
-        return []
+    def get_by_name(self, name: str) -> Optional[InitiativeType]:
+        return next((t for t in self._storage.values() if t.name == name), None)

@@ -3,16 +3,19 @@ from eo_lib.config import Config
 from eo_lib.infrastructure.repositories import (
     PostgresPersonRepository,
     PostgresTeamRepository,
-    PostgresProjectRepository,
+    PostgresInitiativeRepository,
+    PostgresInitiativeTypeRepository,
     InMemoryPersonRepository,
     InMemoryTeamRepository,
-    InMemoryProjectRepository,
+    InMemoryInitiativeRepository,
+    InMemoryInitiativeTypeRepository,
     JsonPersonRepository,
     JsonTeamRepository,
-    JsonProjectRepository,
+    JsonInitiativeRepository,
+    JsonInitiativeTypeRepository,
 )
 
-from eo_lib.services import PersonService, TeamService, ProjectService
+from eo_lib.services import PersonService, TeamService, InitiativeService
 
 
 class ServiceFactory:
@@ -30,53 +33,46 @@ class ServiceFactory:
         Determines the repository classes based on the configured storage type.
 
         Returns:
-            tuple: A tuple containing (PersonRepoClass, TeamRepoClass, ProjectRepoClass).
+            tuple: (PersonRepo, TeamRepo, InitiativeRepo, InitiativeTypeRepo)
         """
         t = Config.get_storage_type().lower()
         if t == "memory":
             return (
                 InMemoryPersonRepository,
                 InMemoryTeamRepository,
-                InMemoryProjectRepository,
+                InMemoryInitiativeRepository,
+                InMemoryInitiativeTypeRepository,
             )
         elif t == "json":
-            return JsonPersonRepository, JsonTeamRepository, JsonProjectRepository
+            return (
+                JsonPersonRepository,
+                JsonTeamRepository,
+                JsonInitiativeRepository,
+                JsonInitiativeTypeRepository,
+            )
         else:  # default to db/postgres
             return (
                 PostgresPersonRepository,
                 PostgresTeamRepository,
-                PostgresProjectRepository,
+                PostgresInitiativeRepository,
+                PostgresInitiativeTypeRepository,
             )
 
     @staticmethod
     def create_person_service() -> PersonService:
-        """
-        Creates and returns a PersonService instance.
-
-        Returns:
-            PersonService: Initialized with the configured repository strategy.
-        """
-        RepoClass, _, _ = ServiceFactory._get_strategies()
+        RepoClass, _, _, _ = ServiceFactory._get_strategies()
         return PersonService(RepoClass())
 
     @staticmethod
     def create_team_service() -> TeamService:
-        """
-        Creates and returns a TeamService instance.
-
-        Returns:
-            TeamService: Initialized with the configured repository strategy.
-        """
-        _, RepoClass, _ = ServiceFactory._get_strategies()
+        _, RepoClass, _, _ = ServiceFactory._get_strategies()
         return TeamService(RepoClass())
 
     @staticmethod
-    def create_project_service() -> ProjectService:
-        """
-        Creates and returns a ProjectService instance.
-
-        Returns:
-            ProjectService: Initialized with the configured repository strategy.
-        """
-        _, _, RepoClass = ServiceFactory._get_strategies()
-        return ProjectService(RepoClass())
+    def create_initiative_service() -> InitiativeService:
+        _, TeamRepoClass, InitiativeRepoClass, InitiativeTypeRepoClass = (
+            ServiceFactory._get_strategies()
+        )
+        return InitiativeService(
+            InitiativeRepoClass(), InitiativeTypeRepoClass(), TeamRepoClass()
+        )

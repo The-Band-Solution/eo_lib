@@ -1,16 +1,13 @@
 import json
 import os
-import time
-from typing import List, Optional, TypeVar, Generic
-from abc import abstractmethod
-from eo_lib.config import Config
+from typing import List, Optional
 from eo_lib.domain.repositories import (
-    GenericRepositoryInterface,
     PersonRepositoryInterface,
     TeamRepositoryInterface,
-    ProjectRepositoryInterface,
+    InitiativeRepository,
+    InitiativeTypeRepository,
 )
-from eo_lib.domain.entities import Person, Team, TeamMember, Project
+from eo_lib.domain.entities import Person, Team, TeamMember, Initiative, InitiativeType
 
 from libbase.infrastructure.json_repository import GenericJsonRepository
 
@@ -81,34 +78,48 @@ class JsonTeamRepository(GenericJsonRepository[Team], TeamRepositoryInterface):
         return []
 
 
-class JsonProjectRepository(GenericJsonRepository[Project], ProjectRepositoryInterface):
-    """JSON implementation of the Project Repository."""
+class JsonInitiativeRepository(GenericJsonRepository[Initiative], InitiativeRepository):
+    """JSON implementation of the Initiative Repository."""
 
     def __init__(self):
-        super().__init__("projects.json", Project)
+        super().__init__("initiatives.json", Initiative)
 
-    def _to_obj(self, data: dict) -> Project:
-        """Converts JSON dict to Project entity."""
-        return Project(
+    def _to_obj(self, data: dict) -> Initiative:
+        return Initiative(
             name=data["name"],
             status=data.get("status", "active"),
             id=data["id"],
             description=data.get("description"),
+            initiative_type_id=data.get("initiative_type_id"),
         )
 
-    def _to_dict(self, project: Project) -> dict:
-        """Converts Project entity to JSON dict."""
+    def _to_dict(self, initiative: Initiative) -> dict:
         return {
-            "id": project.id,
-            "name": project.name,
-            "status": project.status,
-            "description": project.description,
+            "id": initiative.id,
+            "name": initiative.name,
+            "status": initiative.status,
+            "description": initiative.description,
+            "initiative_type_id": initiative.initiative_type_id,
         }
 
-    def add_team_to_project(self, project_id: int, team_id: int) -> None:
-        """Stub for assigning a team in JSON mode."""
-        pass
 
-    def get_teams(self, project_id: int) -> List[Team]:
-        """Stub for listing teams in JSON mode."""
-        return []
+class JsonInitiativeTypeRepository(
+    GenericJsonRepository[InitiativeType], InitiativeTypeRepository
+):
+    """JSON implementation of the InitiativeType Repository."""
+
+    def __init__(self):
+        super().__init__("initiative_types.json", InitiativeType)
+
+    def _to_obj(self, data: dict) -> InitiativeType:
+        return InitiativeType(
+            name=data["name"], description=data.get("description"), id=data["id"]
+        )
+
+    def _to_dict(self, obj: InitiativeType) -> dict:
+        return {"id": obj.id, "name": obj.name, "description": obj.description}
+
+    def get_by_name(self, name: str) -> Optional[InitiativeType]:
+        # Inefficient implementation for JSON (O(N))
+        all_types = self.list()
+        return next((t for t in all_types if t.name == name), None)

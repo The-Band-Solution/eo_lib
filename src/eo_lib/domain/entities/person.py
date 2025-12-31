@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from eo_lib.domain.base import Base
+from eo_lib.domain.entities.initiative import initiative_persons
 from typing import Optional, List
 from datetime import date
 
@@ -10,7 +11,7 @@ class Person(Base):
     Person Model.
 
     Represents an individual within the system. A Person can belong to multiple
-    Organizations, work on multiple Projects, and be a member of various Teams.
+    Organizations, work on multiple Initiatives, and be a member of various Teams.
 
     Attributes:
         id (int): Unique identifier (Primary Key).
@@ -18,7 +19,7 @@ class Person(Base):
         identification_id (str): Unique identification number (e.g., SSN, Tax ID).
         birthday (date): Date of birth.
         organizations (relationship): Many-to-many relationship with Organization entities.
-        projects (relationship): Many-to-many relationship with Project entities.
+        initiatives (relationship): Many-to-many relationship with Initiative entities.
         emails (relationship): One-to-many relationship with PersonEmail entities.
         memberships (relationship): One-to-many relationship with TeamMember associations.
     """
@@ -34,8 +35,8 @@ class Person(Base):
     organizations = relationship(
         "Organization", secondary="organization_persons", back_populates="persons"
     )
-    projects = relationship(
-        "Project", secondary="project_persons", back_populates="persons"
+    initiatives = relationship(
+        "Initiative", secondary=initiative_persons, back_populates="persons"
     )
     emails = relationship(
         "PersonEmail",

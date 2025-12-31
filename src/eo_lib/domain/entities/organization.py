@@ -43,8 +43,8 @@ class Organization(Base):
     persons = relationship(
         "Person", secondary=organization_persons, back_populates="organizations"
     )
-    projects = relationship(
-        "Project", back_populates="organization", cascade="all, delete-orphan"
+    initiatives = relationship(
+        "Initiative", back_populates="organization", cascade="all, delete-orphan"
     )
     teams = relationship(
         "Team", back_populates="organization", cascade="all, delete-orphan"

@@ -26,7 +26,7 @@ The system models a corporate environment where human resources are managed thro
 - A **Person** represents an individual acting within the organization. They can have multiple email addresses.
 - A **Team** is a permanent or semi-permanent collection of individuals working together.
 - A **TeamMember** represents the association of a Person to a Team, characterized by a specific `role` (e.g., "Developer", "Lead") and a strict time period (`start_date` to `end_date`).
-- A **Project** is a specific undertaking or product with a specific lifecycle (`start_date` to `end_date`). Teams (not individual persons) are assigned to Projects. This implies that if a Project requires resources, it acquires them by allocating entire Teams.
+- A **Initiative** is a specific undertaking or product with a specific lifecycle (`start_date` to `end_date`) and a Type. Teams (not individual persons) are assigned to Initiatives.
 
 ### 2.2 Data Dictionary
 
@@ -62,15 +62,23 @@ The system models a corporate environment where human resources are managed thro
 | `start_date` | Date | Default NOW | Date when the person joined the team. |
 | `end_date` | Date | Nullable | Date when the person left the team. Open interval if null. |
 
-#### 2.2.4 Project
+#### 2.2.4 InitiativeType
+| Attribute | Type | Constraints | Description |
+|-----------|------|-------------|-------------|
+| `id` | Integer | PK, Auto-Inc | Unique identifier. |
+| `name` | String | Unique, Not Null | The type name (e.g., "Research", "Development"). |
+| `description` | Text | Optional | Description of the type. |
+
+#### 2.2.5 Initiative
 | Attribute | Type | Constraints | Description |
 |-----------|------|-------------|-------------|
 | `id` | Integer | PK, Auto-Inc | Unique internal identifier for the project. |
-| `name` | String | Unique, Not Null | The code name or label of the project. |
-| `description` | Text | Optional | Detailed project description. |
+| `name` | String | Unique, Not Null | The code name or label of the initiative. |
+| `description` | Text | Optional | Detailed description. |
 | `start_date` | Date | Optional | Projected start date. |
 | `end_date` | Date | Optional | Projected end date. |
 | `status` | String | Default "active" | Valid values: active, completed, archived. |
+| `initiative_type_id` | Integer | FK (InitiativeType) | The type of the initiative. |
 
 #### 2.2.5 Implementation Strategy
 The entities are implemented using **SQLAlchemy Declarative Models** inheriting from a shared `Base`. This provides a direct mapping between the classes described above and the underlying Relational Database Schema, ensuring the DRY principle is respected.
@@ -112,12 +120,20 @@ classDiagram
         +date end_date
     }
     
-    class Project {
+    class InitiativeType {
+        +int id
+        +str name
+        +str description
+    }
+
+    class Initiative {
         +int id
         +str name
         +str description
         +date start_date
+        +date start_date
         +date end_date
+        +int initiative_type_id
         +list[Team] teams
     }
 
@@ -125,7 +141,9 @@ classDiagram
     Person "1" --> "N" PersonEmail : Has
     Person "1" --> "N" TeamMember : Belongs to
     Team "1" --> "N" TeamMember : Contains
-    Team "N" -- "M" Project : Assigned to
+    Team "1" --> "N" TeamMember : Contains
+    Team "N" -- "M" Initiative : Assigned to
+    Initiative "N" --> "1" InitiativeType : Has Type
 ```
 
 ### 3.2 Architecture Class Diagram
@@ -137,35 +155,38 @@ classDiagram
     namespace Presentation {
         class PersonController
         class TeamController
-        class ProjectController
+        class InitiativeController
     }
     
     namespace Business_Logic {
         class PersonService
         class TeamService
-        class ProjectService
+        class InitiativeService
     }
     
     namespace Data_Access {
         class PersonRepository
         class TeamRepository
-        class ProjectRepository
+        class InitiativeRepository
+        class InitiativeTypeRepository
     }
     
     namespace Domain {
         class Person
         class Team
-        class Project
+        class Initiative
+        class InitiativeType
     }
 
     %% Dependencies
     PersonController --|> PersonService : uses
     TeamController --|> TeamService : uses
-    ProjectController --|> ProjectService : uses
+    InitiativeController --|> InitiativeService : uses
     
     PersonService --|> PersonRepository : uses
     TeamService --|> TeamRepository : uses
-    ProjectService --|> ProjectRepository : uses
+    InitiativeService --|> InitiativeRepository : uses
+    InitiativeService --|> InitiativeTypeRepository : uses
 
     %% Entities flow through all layers
     PersonController ..> Person : handles
@@ -177,10 +198,10 @@ classDiagram
     TeamRepository ..> Team : persists
     TeamRepository ..> Person : manages membership
 
-    ProjectController ..> Project : handles
-    ProjectService ..> Project : processes
-    ProjectRepository ..> Project : persists
-    ProjectRepository ..> Team : manages assignment
+    InitiativeController ..> Initiative : handles
+    InitiativeService ..> Initiative : processes
+    InitiativeRepository ..> Initiative : persists
+    InitiativeRepository ..> Team : manages assignment
 ```
 
 ### 3.3 Package Model Diagram

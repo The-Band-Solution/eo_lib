@@ -1,16 +1,13 @@
-from eo_lib.controllers.person_controller import PersonController
-from eo_lib.controllers.team_controller import TeamController
-from eo_lib.controllers.project_controller import ProjectController
-from eo_lib.domain.entities.person import Person
-from eo_lib.domain.entities.team import Team, TeamMember
-from eo_lib.domain.entities.project import Project
+from .controllers import PersonController, TeamController, InitiativeController
+from .domain import Person, Team, TeamMember, Initiative, InitiativeType
 
 __all__ = [
     "PersonController",
     "TeamController",
-    "ProjectController",
+    "InitiativeController",
     "Person",
     "Team",
     "TeamMember",
-    "Project",
+    "Initiative",
+    "InitiativeType",
 ]

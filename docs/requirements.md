@@ -14,13 +14,25 @@
 - **FR-02-C**: A Person can belong to multiple Teams.
 - **FR-02-D**: The system must allow listing all members of a specific Team.
 
-### FR-03: Project Management
-- **FR-03-A**: The system must allow creating a Project with `name`, `description`, `start_date`, and `end_date`.
-- **FR-03-B**: A Team can be assigned to multiple Projects.
-- **FR-03-C**: A Project can have multiple Teams assigned to it (Many-to-Many).
-- **FR-03-D**: The system must allow listing all teams working on a specific Project.
+### FR-03: Initiative Management
+- **FR-03-A**: The system must allow creating an Initiative with `name`, `description`, `start_date`, `end_date`, and `initiative_type`.
+- **FR-03-B**: A Team can be assigned to multiple Initiatives.
+- **FR-03-C**: An Initiative can have multiple Teams assigned to it (Many-to-Many).
+- **FR-03-E**: The system must allow listing all teams working on a specific Initiative.
 
-### FR-02: Configuration
+### FR-04: Initiative Type Management
+- **FR-04-A**: The system must allow creating a new Initiative Type (name, description).
+- **FR-04-B**: The system must allow listing all Initiative Types.
+- **FR-04-C**: The system must allow updating an Initiative Type.
+- **FR-04-D**: The system must allow deleting an Initiative Type.
+
+### FR-05: Role Management
+- **FR-05-A**: The system must allow creating a new Role (name, description).
+- **FR-05-B**: The system must allow listing all Roles.
+- **FR-05-C**: The system must allow updating a Role.
+- **FR-05-D**: The system must allow deleting a Role.
+
+### FR-06: Configuration
 - **FR-02-A**: The database connection string must be configurable via Environment Variables or a Config object passed at initialization.
 
 ## 2. Non-Functional Requirements (NFR)
