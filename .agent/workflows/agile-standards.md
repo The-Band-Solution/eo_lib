@@ -37,7 +37,13 @@ Maintain the following artifacts throughout the lifecycle:
     - [ ] **Modifications**: Detailed list of technical changes.
     - [ ] **How to Test**: Clear steps for verification.
 
-## 5. Definition of Done (DoD)
+    - [ ] **How to Test**: Clear steps for verification.
+
+## 5. Merge Standards
+- [ ] **Conflict Free**: PR can be merged if there are no conflicts.
+- [ ] **Cleanup**: Delete the feature branch (locally and remotely) after successful merge.
+
+## 6. Definition of Done (DoD)
 - [ ] **Verification**:
     - [ ] Test suite passing.
     - [ ] Linting checks passing.
