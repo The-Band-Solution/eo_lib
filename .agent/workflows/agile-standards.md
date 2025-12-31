@@ -12,6 +12,9 @@ Follow this workflow ensuring all work adheres to "The Band Project" standards.
 
 ## 2. Definition of Ready (DoR) Check
 Before moving a task to "In Progress":
+- [ ] **Documentation First**:
+    - [ ] Update `docs/*.md` (e.g., `requirements.md`, `sdd.md`) before creating the issue.
+    - [ ] **Reference**: Description MUST link to docs (e.g., "Implement Req 1.1 as detailed in `docs/requirements.md`").
 - [ ] **Hierarchy Check**: Confirm strict hierarchy: `Epic -> User Story -> Task`.
 - [ ] **Governance**: Ensure work is associated with "The Band Project" ecosystem.
 - [ ] **readiness**:
