@@ -69,11 +69,12 @@ Maintain the following artifacts throughout the lifecycle:
     - [ ] Open Pull Request from `developing` to `main`.
     - [ ] Title Format: `release: <description>`.
     - [ ] No direct commits to `main` allowed.
-    - [ ] **Versioning**:
-        - [ ] **DO NOT** run `bump_version.py` locally.
-        - [ ] **Create Tag**: `git tag vX.Y.Z` (at end of each feature/fix/release).
-        - [ ] **Push Tag**: `git push origin vX.Y.Z`.
-        - [ ] **CI/CD**: GitHub Action handles version bump & publish.
+        - [ ] **Versioning**:
+            - [ ] **DO NOT** run `bump_version.py` locally.
+            - [ ] **Create Tag**: `git tag vX.Y.Z` (at end of each feature/fix/release).
+            - [ ] **Update Latest**: `git tag -f latest` and `git push origin -f latest` (at end of each feature/fix/bug).
+            - [ ] **Push Tag**: `git push origin vX.Y.Z`.
+            - [ ] **CI/CD**: GitHub Action handles version bump & publish.
 
 ## 8. Merge Standards
 - [ ] **Conflict Free**: PR can be merged if there are no conflicts.
@@ -90,7 +91,7 @@ Maintain the following artifacts throughout the lifecycle:
 - [ ] **Closure**:
     - [ ] Close related GitHub Issues.
     - [ ] Update hierarchical status in `docs/backlog.md`.
-    - [ ] **Versioning**: Tag the release (see Section 7) after Feature/Fix/Bug closure.
+    - [ ] **Versioning**: Tag the release and update `latest` tag (see Section 7) after Feature/Fix/Bug closure.
 
 ## 10. Tooling Standards
 - [ ] **GitHub Interaction**:
