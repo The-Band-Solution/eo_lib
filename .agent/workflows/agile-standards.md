@@ -85,3 +85,13 @@ Maintain the following artifacts throughout the lifecycle:
 - [ ] **Closure**:
     - [ ] Close related GitHub Issues.
     - [ ] Update hierarchical status in `docs/backlog.md`.
+
+## 10. Tooling Standards
+- [ ] **GitHub Interaction**:
+    - [ ] **MUST USE** GitHub MCP Tools (`github-mcp-server`) for:
+        - Creating/Merging Pull Requests.
+        - Creating/Updating Issues.
+        - Managing Branches (Remote).
+        - Releases.
+    - [ ] **AVOID** `git` CLI commands where MCP alternatives exist.
+    - [ ] **Legacy Git**: Use `git` CLI only for local workspace synchronization (checkout/pull) if MCP equivalent is unavailable.
