@@ -46,7 +46,8 @@ class PersonService:
             identification_id=identification_id,
             birthday=birthday,
         )
-        return self.repo.add(person)
+        self.repo.add(person)
+        return person
 
     def get(self, id: int) -> Person:
         """

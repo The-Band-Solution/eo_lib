@@ -24,7 +24,11 @@ def test_create_person(service, mock_repo):
     expected_person = Person(
         name=name, emails=emails, identification_id=ident, birthday=bday, id=1
     )
-    mock_repo.add.return_value = expected_person
+    def simulate_add(person):
+        person.id = 1
+        return None
+    
+    mock_repo.add.side_effect = simulate_add
 
     # Act
     result = service.create(name, emails, identification_id=ident, birthday=bday)

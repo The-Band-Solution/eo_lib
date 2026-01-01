@@ -43,13 +43,14 @@ class InitiativeService:
             end_date=end_date,
             initiative_type_id=initiative_type_id,
         )
-        return self.initiative_repo.add(initiative)
+        self.initiative_repo.add(initiative)
+        return initiative
 
     def get_initiative(self, initiative_id: int) -> Optional[Initiative]:
-        return self.initiative_repo.get(initiative_id)
+        return self.initiative_repo.get_by_id(initiative_id)
 
     def list_initiatives(self) -> List[Initiative]:
-        return self.initiative_repo.list()
+        return self.initiative_repo.get_all()
 
     def create_initiative_type(
         self, name: str, description: Optional[str] = None
@@ -59,10 +60,11 @@ class InitiativeService:
             raise ValueError(f"InitiativeType '{name}' already exists")
 
         new_type = InitiativeType(name=name, description=description)
-        return self.initiative_type_repo.add(new_type)
+        self.initiative_type_repo.add(new_type)
+        return new_type
 
     def list_initiative_types(self) -> List[InitiativeType]:
-        return self.initiative_type_repo.list()
+        return self.initiative_type_repo.get_all()
 
     def update_initiative(
         self,
@@ -74,7 +76,7 @@ class InitiativeService:
         end_date: Optional[datetime] = None,
         initiative_type_name: Optional[str] = None,
     ) -> Initiative:
-        initiative = self.initiative_repo.get(initiative_id)
+        initiative = self.initiative_repo.get_by_id(initiative_id)
         if not initiative:
             raise ValueError(f"Initiative {initiative_id} not found")
 
@@ -96,14 +98,15 @@ class InitiativeService:
             else:
                 raise ValueError(f"InitiativeType '{initiative_type_name}' not found")
 
-        return self.initiative_repo.update(initiative)
+        self.initiative_repo.update(initiative)
+        return initiative
 
     def assign_team(self, initiative_id: int, team_id: int) -> None:
-        initiative = self.initiative_repo.get(initiative_id)
+        initiative = self.initiative_repo.get_by_id(initiative_id)
         if not initiative:
             raise ValueError(f"Initiative {initiative_id} not found")
 
-        team = self.team_repo.get(team_id)
+        team = self.team_repo.get_by_id(team_id)
         if not team:
             raise ValueError(f"Team {team_id} not found")
 
@@ -117,7 +120,7 @@ class InitiativeService:
         self.initiative_repo.update(initiative)
 
     def get_teams(self, initiative_id: int) -> List[Team]:
-        initiative = self.initiative_repo.get(initiative_id)
+        initiative = self.initiative_repo.get_by_id(initiative_id)
         if not initiative:
             raise ValueError(f"Initiative {initiative_id} not found")
         return initiative.teams

@@ -35,6 +35,15 @@ def setup_database():
         InitiativeType,
     )
 
+    from sqlalchemy import text
+    
+    # Drop legacy tables to clean old schema
+    with client._engine.connect() as conn:
+        conn.execute(text("DROP TABLE IF EXISTS project_teams CASCADE"))
+        conn.execute(text("DROP TABLE IF EXISTS project_persons CASCADE"))
+        conn.execute(text("DROP TABLE IF EXISTS projects CASCADE"))
+        conn.commit()
+
     Base.metadata.drop_all(client._engine)
     Base.metadata.create_all(client._engine)
 
