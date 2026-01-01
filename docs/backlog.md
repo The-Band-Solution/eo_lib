@@ -1,36 +1,23 @@
 # Project Backlog - Enterprise Ontology Library
 
-This document is automatically synchronized with GitHub Issues. Last updated: 2025-12-31 22:52:00
-
-## 🚀 Releases
-| PR # | Description | Commit |
-| :--- | :--- | :--- |
-| [v0.3.2](https://github.com/The-Band-Solution/eo_lib/releases/tag/v0.3.2) | release: fix GitHub Packages upload (v0.3.2) | [6a95780](https://github.com/The-Band-Solution/eo_lib/commit/6a95780) |
-| [#31](https://github.com/The-Band-Solution/eo_lib/commit/f7615c1) | docs: align specifications and agile standards | [f7615c1](https://github.com/The-Band-Solution/eo_lib/commit/f7615c1) |
-| [#30](https://github.com/The-Band-Solution/eo_lib/pull/30) | feat: Organization and Organizational Unit Management | [06e57e3](https://github.com/The-Band-Solution/eo_lib/commit/06e57e3) |
-| [#12](https://github.com/The-Band-Solution/eo_lib/pull/12) | docs: enforce documentation first rule | [afe61e8](https://github.com/The-Band-Solution/eo_lib/commit/afe61e8) |
-| [#11](https://github.com/The-Band-Solution/eo_lib/pull/11) | docs: add Release Strategy to agile standards | [ba98dab](https://github.com/The-Band-Solution/eo_lib/commit/ba98dab) |
-| [#9](https://github.com/The-Band-Solution/eo_lib/pull/9) | docs: implement GitFlow standards | [de1b7d1](https://github.com/The-Band-Solution/eo_lib/commit/de1b7d1) |
+This document is automatically synchronized with GitHub Issues. Last updated: 2026-01-01 13:27:28
 
 ## 📋 Master Issue List
 Visão geral de todas as demandas, seus estados e executores.
 
 | # | Status | Title | Executor | Sprint | Milestone |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) | ✅ | feat: Organization and Organizational Unit Management | antigravity | - | - |
-| [#30](https://github.com/The-Band-Solution/eo_lib/issues/30) | ✅ | bugfix: fix 404 error on GitHub Packages upload | antigravity | - | - |
-| [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) | 🟢 | refactor: Project to Initiative and add InitiativeType | - | - | - |
+| [#31](https://github.com/The-Band-Solution/eo_lib/issues/31) | 🟢 | Feature: Implement Database Indexing for Entities | - | - | - |
 
 ---
 
 ## 📂 Workflow States
 
 ### 🟢 In Progress / Todo
-- [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) **refactor: Project to Initiative and add InitiativeType** (Executor: -)
+- [#31](https://github.com/The-Band-Solution/eo_lib/issues/31) **Feature: Implement Database Indexing for Entities** (Executor: -)
 
 ### ✅ Done / Released
-- [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) **feat: Organization and Organizational Unit Management** (Executor: antigravity)
-- [#30](https://github.com/The-Band-Solution/eo_lib/issues/30) **bugfix: fix 404 error on GitHub Packages upload** (Executor: antigravity)
+_Nenhuma issue neste estado._
 
 
 ---
@@ -39,9 +26,7 @@ Visão geral de todas as demandas, seus estados e executores.
 Demandas organizadas por ciclos de execução. Uma issue pode aparecer em múltiplos sprints.
 
 ### 🗓️ No Sprint
-- ✅ [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
-- ✅ [#30](https://github.com/The-Band-Solution/eo_lib/issues/30) bugfix: fix 404 error on GitHub Packages upload
-- 🟢 [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) refactor: Project to Initiative and add InitiativeType
+- 🟢 [#31](https://github.com/The-Band-Solution/eo_lib/issues/31) Feature: Implement Database Indexing for Entities
 
 ---
 
@@ -49,49 +34,25 @@ Demandas organizadas por ciclos de execução. Uma issue pode aparecer em múlti
 Grandes entregas e objetivos estratégicos.
 
 ### 🏁 Backlog / No Milestone
-- ✅ [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
-- ✅ [#30](https://github.com/The-Band-Solution/eo_lib/issues/30) bugfix: fix 404 error on GitHub Packages upload
-- 🟢 [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) refactor: Project to Initiative and add InitiativeType
+- 🟢 [#31](https://github.com/The-Band-Solution/eo_lib/issues/31) Feature: Implement Database Indexing for Entities
 
 ---
 
 ## 📝 Detailed Backlog
 Detalhamento completo de cada issue.
 
-### [CLOSED] [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
-- **Executor**: antigravity
-- **Labels**: 
+### [OPEN] [#31](https://github.com/The-Band-Solution/eo_lib/issues/31) Feature: Implement Database Indexing for Entities
+- **Executor**: -
+- **Labels**: `enhancement`, `performance`
 - **Milestone**: -
 
 **Description**:
-## Description
-Implement Organization and Organizational Unit entities to support corporate hierarchies.
+## Context
+To improve read performance and optimize query execution plans, we need to introduce database indexes on frequently accessed columns across our core entities.
 
-As detailed in:
-- **Requirements**: [docs/requirements.md](docs/requirements.md) (FR-06, FR-07)
-- **Design**: [docs/sdd.md](docs/sdd.md) (Section 2.2.6, 2.2.7)
-
-## Objective
-Enable the management of organizations and their internal structures (units/departments).
-
-...
+## Requirements
+- Define indexes for the following entities as specified in `docs/specifications.md`:
+    - **Person**: `name`, `...
 
 ---
 
-### [CLOSED] [#30](https://github.com/The-Band-Solution/eo_lib/issues/30) bugfix: fix 404 error on GitHub Packages upload
-- **Executor**: antigravity
-- **Labels**: 
-- **Milestone**: -
-
-**Description**:
-## Description
-The release workflow fails with a 404 error during the upload to GitHub Packages (PyPI).
-This is likely due to the trailing slash in the `--repository-url` or the specific construction of the URL.
-
-## Objective
-Fix the PyPI upload URL in `.github/workflows/release.yml`.
-
-## Tasks
-- [x] Update `release.yml` with correct URL format
-- [x] Push changes to `main`
-- [x] Verify release on next tag push
