@@ -9,6 +9,7 @@ To provide a robust, enterprise-grade, and strictly architectural Python library
 - **Full Documentation**: Every class and method must have a docstring explaining its purpose, arguments, and return values.
 - **Layered Architecture**: MVC + Service + Repository is preserved, but Entities flow through all layers (Unified Model).
 - **SOLID**: Adherence to principles where they don't conflict with Pragmatism (DRY).
+- **Module-First Structure**: Every folder is a Python module and must contain an `__init__.py`. This file must expose public classes to flatten the import path (e.g., `from package import Class` instead of `from package.file import Class`).
 
 ## 3. Technology Stack
 - **Language**: Python 3.10+

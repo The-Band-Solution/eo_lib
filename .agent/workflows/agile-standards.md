@@ -12,6 +12,9 @@ Follow this workflow ensuring all work adheres to "The Band Project" standards.
 
 ## 2. Definition of Ready (DoR) Check
 Before moving a task to "In Progress":
+- [ ] **Documentation First**:
+    - [ ] Update `docs/*.md` (e.g., `requirements.md`, `sdd.md`) before creating the issue.
+    - [ ] **Reference**: Description MUST link to docs (e.g., "Implement Req 1.1 as detailed in `docs/requirements.md`").
 - [ ] **Hierarchy Check**: Confirm strict hierarchy: `Epic -> User Story -> Task`.
 - [ ] **Governance**: Ensure work is associated with "The Band Project" ecosystem.
 - [ ] **readiness**:
@@ -22,12 +25,21 @@ Before moving a task to "In Progress":
     - [ ] **Draft**: Provide technical proposal/text to the user.
     - [ ] **Approval**: Mandatory user approval before proceeding.
     - [ ] **Create**: Create the issue on GitHub ONLY after approval.
+    - [ ] **Fields Requirement**:
+        - [ ] **Label**: Must be set.
+        - [ ] **Type**: Must be set.
+        - [ ] **Milestone**: Must be set.
+        - [ ] **Project**: Must be set to "The Band Project".
     - [ ] **Start**: Begin programming only after issue creation.
 
 ## 3. Artifact Maintenance
 Maintain the following artifacts throughout the lifecycle:
 - [ ] `task.md`: For detailed task tracking.
 - [ ] `implementation_plan.md`: For technical planning and review.
+- [ ] `docs/backlog.md`: Must include **Releases** section with:
+    - PR Number & Link
+    - Description
+    - Commit SHA & Link
 
 ## 4. Implementation Standards
 - [ ] **TDD**: Code must pass all tests.
@@ -44,11 +56,19 @@ Maintain the following artifacts throughout the lifecycle:
     - [ ] **How to Test**: Clear steps for verification.
 
 
-## 6. Merge Standards
+## 6. Release Strategy (CD)
+- [ ] **Promotion**: `developing` -> `main`.
+- [ ] **Trigger**: All tests passed on `developing`.
+- [ ] **Process**:
+    - [ ] Open Pull Request from `developing` to `main`.
+    - [ ] Title Format: `release: <description>`.
+    - [ ] No direct commits to `main` allowed.
+
+## 7. Merge Standards
 - [ ] **Conflict Free**: PR can be merged if there are no conflicts.
 - [ ] **Cleanup**: Delete the feature branch (locally and remotely) after successful merge.
 
-## 7. Definition of Done (DoD)
+## 8. Definition of Done (DoD)
 - [ ] **Verification**:
     - [ ] Test suite passing.
     - [ ] Linting checks passing.

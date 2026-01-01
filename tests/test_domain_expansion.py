@@ -5,7 +5,7 @@ from eo_lib.domain.base import Base
 from eo_lib.domain.entities import (
     Organization,
     OrganizationalUnit,
-    Project,
+    Initiative,
     Team,
     TeamMember,
     Person,
@@ -74,19 +74,19 @@ def test_organizational_unit_recursion(session):
     assert saved_parent.children[0].parent.name == "Engineering"
 
 
-def test_project_recursion(session):
-    p_parent = Project(name="Moonshot")
+def test_initiative_recursion(session):
+    p_parent = Initiative(name="Moonshot")
     session.add(p_parent)
     session.commit()
 
-    p_child = Project(name="Apollo 11", parent_id=p_parent.id)
+    p_child = Initiative(name="Apollo 11", parent_id=p_parent.id)
     session.add(p_child)
     session.commit()
 
-    saved_parent = session.query(Project).filter_by(name="Moonshot").first()
-    assert len(saved_parent.sub_projects) == 1
-    assert saved_parent.sub_projects[0].name == "Apollo 11"
-    assert saved_parent.sub_projects[0].parent.name == "Moonshot"
+    saved_parent = session.query(Initiative).filter_by(name="Moonshot").first()
+    assert len(saved_parent.sub_initiatives) == 1
+    assert saved_parent.sub_initiatives[0].name == "Apollo 11"
+    assert saved_parent.sub_initiatives[0].parent.name == "Moonshot"
 
 
 def test_organization_links(session):
@@ -95,34 +95,34 @@ def test_organization_links(session):
     session.commit()
 
     team = Team(name="A-Team", short_name="AT", organization_id=org.id)
-    project = Project(name="Project X", organization_id=org.id)
+    initiative = Initiative(name="Project X", organization_id=org.id)
 
-    session.add_all([team, project])
+    session.add_all([team, initiative])
     session.commit()
 
     saved_org = session.query(Organization).first()
     assert len(saved_org.teams) == 1
-    assert len(saved_org.projects) == 1
+    assert len(saved_org.initiatives) == 1
     assert team.organization.name == "Horizon Corp"
     assert team.short_name == "AT"
-    assert project.organization.name == "Horizon Corp"
+    assert initiative.organization.name == "Horizon Corp"
 
 
-def test_project_person_m2m(session):
-    project = Project(name="Project Omega")
+def test_initiative_person_m2m(session):
+    initiative = Initiative(name="Project Omega")
     p1 = Person(name="Alice", emails=["alice@example.com"])
     p2 = Person(name="Bob", emails=["bob@example.com"])
 
-    project.persons.append(p1)
-    project.persons.append(p2)
+    initiative.persons.append(p1)
+    initiative.persons.append(p2)
 
-    session.add(project)
+    session.add(initiative)
     session.commit()
 
-    saved_project = session.query(Project).filter_by(name="Project Omega").first()
-    assert len(saved_project.persons) == 2
-    assert p1.projects[0].name == "Project Omega"
-    assert p2.projects[0].name == "Project Omega"
+    saved_initiative = session.query(Initiative).filter_by(name="Project Omega").first()
+    assert len(saved_initiative.persons) == 2
+    assert p1.initiatives[0].name == "Project Omega"
+    assert p2.initiatives[0].name == "Project Omega"
 
 
 def test_team_member_role(session):
