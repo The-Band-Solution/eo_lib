@@ -45,6 +45,24 @@
 | `end_date` | `TIMESTAMP` | | Projected end date |
 | `status` | `VARCHAR(20)` | `DEFAULT 'active'` | Status |
 
+### Table: `organizations`
+| Column | Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `INTEGER` | `PK`, `AUTO` | Unique Identifier |
+| `name` | `VARCHAR(100)` | `NOT NULL` | Organization Name |
+| `description` | `TEXT` | | Optional description |
+| `short_name` | `VARCHAR(50)` | `UNIQUE` | Acronym |
+
+### Table: `organizational_units`
+| Column | Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `INTEGER` | `PK`, `AUTO` | Unique Identifier |
+| `name` | `VARCHAR(100)` | `NOT NULL` | Unit Name |
+| `organization_id` | `INTEGER` | `FK(organizations.id)` | Parent Org |
+| `parent_id` | `INTEGER` | `FK(organizational_units.id)` | Parent Unit (Hierarchy) |
+| `description` | `TEXT` | | Optional description |
+| `short_name` | `VARCHAR(50)` | | Optional short name |
+
 ### Table: `project_teams`
 | Column | Type | Constraints | Description |
 | :--- | :--- | :--- | :--- |
@@ -78,3 +96,17 @@
 - `list_projects() -> list[Project]`
 - `assign_team(project_id: int, team_id: int) -> void`
 - `get_teams(project_id: int) -> list[Team]`
+
+### Class: `OrganizationController`
+- `create_organization(name: str, description: str = None, short_name: str = None) -> Organization`
+- `get_organization(id: int) -> Organization`
+- `update_organization(id: int, name: str = None, description: str = None, short_name: str = None) -> Organization`
+- `delete_organization(id: int) -> None`
+- `list_organizations() -> list[Organization]`
+
+### Class: `OrganizationalUnitController`
+- `create_unit(name: str, organization_id: int, parent_id: int = None, description: str = None, short_name: str = None) -> OrganizationalUnit`
+- `get_unit(id: int) -> OrganizationalUnit`
+- `update_unit(id: int, name: str = None, parent_id: int = None, description: str = None, short_name: str = None) -> OrganizationalUnit`
+- `delete_unit(id: int) -> None`
+- `list_units(organization_id: int = None) -> list[OrganizationalUnit]`

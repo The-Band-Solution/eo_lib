@@ -6,9 +6,10 @@ Welcome to the **Enterprise Ontology Library (eo_lib)** documentation folder. Th
 
 | File | Description |
 | :--- | :--- |
-| **[backlog.md](file:///home/paulossjunior/projects/horizon_project/eo_lib_antigravity/docs/backlog.md)** | **Real-time Backlog**: Automatically synchronized with GitHub Issues. Tracks Sprints, Milestones, and Executors. |
-| **[sdd.md](file:///home/paulossjunior/projects/horizon_project/eo_lib_antigravity/docs/sdd.md)** | **Software Design Description**: Detailed architecture, class diagrams, and design patterns used in the library. |
-| **[srs.md](file:///home/paulossjunior/projects/horizon_project/eo_lib_antigravity/docs/srs.md)** | **Software Requirements Specification**: Functional and non-functional requirements defining the scope of the project. |
+| **[backlog.md](file:///home/paulossjunior/projects/horizon_project/eo_lib_antigravity/docs/backlog.md)** | **Real-time Backlog**: Tracks Sprints, Milestones, and Releases. |
+| **[sdd.md](file:///home/paulossjunior/projects/horizon_project/eo_lib_antigravity/docs/sdd.md)** | **Software Design Description**: Architecture, class diagrams, and design patterns. |
+| **[requirements.md](file:///home/paulossjunior/projects/horizon_project/eo_lib_antigravity/docs/requirements.md)** | **Requirements**: Functional and non-functional requirements. |
+| **[constitution.md](file:///home/paulossjunior/projects/horizon_project/eo_lib_antigravity/docs/constitution.md)** | **Constitution**: Core values and principles of the project. |
 
 ## ⚙️ Automation
 The `backlog.md` is managed by a GitHub Action (`.github/workflows/backlog_sync.yml`) that runs daily and on issue events. 
