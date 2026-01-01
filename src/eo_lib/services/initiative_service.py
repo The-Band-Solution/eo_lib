@@ -6,20 +6,23 @@ from eo_lib.domain.repositories import (
     InitiativeTypeRepository,
     TeamRepositoryInterface,
 )
+from libbase.services.generic_service import GenericService
 
 
-class InitiativeService:
+class InitiativeService(GenericService[Initiative]):
     def __init__(
         self,
         initiative_repo: InitiativeRepository,
         initiative_type_repo: InitiativeTypeRepository,
         team_repo: TeamRepositoryInterface,
     ):
-        self.initiative_repo = initiative_repo
+        super().__init__(initiative_repo)
+        # Using self.repo (from parent) for initiative_repo if generic access is needed
+        self.initiative_repo = initiative_repo 
         self.initiative_type_repo = initiative_type_repo
         self.team_repo = team_repo
 
-    def create_initiative(
+    def create_initiative_with_details(
         self,
         name: str,
         description: Optional[str] = None,
@@ -43,14 +46,8 @@ class InitiativeService:
             end_date=end_date,
             initiative_type_id=initiative_type_id,
         )
-        self.initiative_repo.add(initiative)
+        self.create(initiative)
         return initiative
-
-    def get_initiative(self, initiative_id: int) -> Optional[Initiative]:
-        return self.initiative_repo.get_by_id(initiative_id)
-
-    def list_initiatives(self) -> List[Initiative]:
-        return self.initiative_repo.get_all()
 
     def create_initiative_type(
         self, name: str, description: Optional[str] = None
@@ -66,7 +63,7 @@ class InitiativeService:
     def list_initiative_types(self) -> List[InitiativeType]:
         return self.initiative_type_repo.get_all()
 
-    def update_initiative(
+    def update_initiative_details(
         self,
         initiative_id: int,
         name: Optional[str] = None,
@@ -76,7 +73,7 @@ class InitiativeService:
         end_date: Optional[datetime] = None,
         initiative_type_name: Optional[str] = None,
     ) -> Initiative:
-        initiative = self.initiative_repo.get_by_id(initiative_id)
+        initiative = self.get_by_id(initiative_id)
         if not initiative:
             raise ValueError(f"Initiative {initiative_id} not found")
 
@@ -98,11 +95,11 @@ class InitiativeService:
             else:
                 raise ValueError(f"InitiativeType '{initiative_type_name}' not found")
 
-        self.initiative_repo.update(initiative)
+        self.update(initiative)
         return initiative
 
     def assign_team(self, initiative_id: int, team_id: int) -> None:
-        initiative = self.initiative_repo.get_by_id(initiative_id)
+        initiative = self.get_by_id(initiative_id)
         if not initiative:
             raise ValueError(f"Initiative {initiative_id} not found")
 
@@ -110,17 +107,15 @@ class InitiativeService:
         if not team:
             raise ValueError(f"Team {team_id} not found")
 
-        # Check if already assigned to avoid duplicates if necessary
-        # Assuming list check or set behavior. SQLAlchemy handles duplicates in list usually by appending.
-        # Check if team in initiative.teams
+        # Check if already assigned to avoid duplicates
         if any(t.id == team.id for t in initiative.teams):
             return  # Already assigned
 
         initiative.teams.append(team)
-        self.initiative_repo.update(initiative)
+        self.update(initiative)
 
     def get_teams(self, initiative_id: int) -> List[Team]:
-        initiative = self.initiative_repo.get_by_id(initiative_id)
+        initiative = self.get_by_id(initiative_id)
         if not initiative:
             raise ValueError(f"Initiative {initiative_id} not found")
         return initiative.teams

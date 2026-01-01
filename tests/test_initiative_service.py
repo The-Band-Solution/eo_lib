@@ -30,7 +30,8 @@ def test_create_initiative(service, mock_initiative_repo):
         obj.id = 1
         return None
     mock_initiative_repo.add.side_effect = simulate_add
-    created = service.create_initiative("Mars")
+    # create_initiative -> create_initiative_with_details
+    created = service.create_initiative_with_details("Mars")
     assert created.id == 1
     assert created.name == "Mars"
     mock_initiative_repo.add.assert_called()
@@ -45,7 +46,8 @@ def test_create_initiative_with_type(service, mock_initiative_repo, mock_type_re
         return None
     mock_initiative_repo.add.side_effect = simulate_add
 
-    created = service.create_initiative("Mars", initiative_type_name="Space")
+    # create_initiative -> create_initiative_with_details
+    created = service.create_initiative_with_details("Mars", initiative_type_name="Space")
     assert created.initiative_type_id == 10
     mock_type_repo.get_by_name.assert_called_with("Space")
 
@@ -53,7 +55,8 @@ def test_create_initiative_with_type(service, mock_initiative_repo, mock_type_re
 def test_get_initiative(service, mock_initiative_repo):
     p = Initiative(name="Mars", id=1)
     mock_initiative_repo.get_by_id.return_value = p
-    assert service.get_initiative(1) == p
+    # get_initiative -> get_by_id
+    assert service.get_by_id(1) == p
     mock_initiative_repo.get_by_id.assert_called_with(1)
 
 
@@ -62,7 +65,8 @@ def test_update_initiative(service, mock_initiative_repo):
     mock_initiative_repo.get_by_id.return_value = orig
     mock_initiative_repo.update.return_value = orig
 
-    service.update_initiative(1, status="Done")
+    # update_initiative -> update_initiative_details
+    service.update_initiative_details(1, status="Done")
 
     start_args, _ = mock_initiative_repo.update.call_args
     updated_obj = start_args[0]
@@ -71,7 +75,8 @@ def test_update_initiative(service, mock_initiative_repo):
 
 def test_list_initiatives(service, mock_initiative_repo):
     mock_initiative_repo.get_all.return_value = []
-    assert service.list_initiatives() == []
+    # list_initiatives -> get_all
+    assert service.get_all() == []
 
 
 def test_assign_team(service, mock_initiative_repo, mock_team_repo):
