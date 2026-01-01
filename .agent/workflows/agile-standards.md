@@ -78,7 +78,10 @@ Maintain the following artifacts throughout the lifecycle:
 
 ## 8. Merge Standards
 - [ ] **Conflict Free**: PR can be merged if there are no conflicts.
-- [ ] **Cleanup**: Delete the feature branch (locally and remotely) after successful merge.
+- [ ] **Cleanup**: 
+    - [ ] **Remote**: Delete the feature/bugfix branch from GitHub immediately after the PR is merged.
+    - [ ] **Local**: Delete the local branch to keep the workspace clean.
+    - [ ] **Sync**: Run `git remote prune origin` to synchronize remote branch tracking.
 
 ## 9. Definition of Done (DoD)
 - [ ] **Verification**:
@@ -91,6 +94,7 @@ Maintain the following artifacts throughout the lifecycle:
 - [ ] **Closure**:
     - [ ] Close related GitHub Issues.
     - [ ] Update hierarchical status in `docs/backlog.md`.
+    - [ ] **Cleanup**: Confirm that all related feature/fix/bug branches (remote and local) have been deleted.
     - [ ] **Versioning**: Tag the release and update `latest` tag (see Section 7) after Feature/Fix/Bug closure.
 
 ## 10. Tooling Standards
