@@ -24,9 +24,11 @@ The system follows a **Strict Layered Architecture** emphasizing separation of c
 ### 2.1 Mini-World Scenario
 The system models a corporate environment where human resources are managed through **Persons**, **Teams**, and **Projects**.
 - A **Person** represents an individual acting within the organization. They can have multiple email addresses.
+- An **Organization** is the top-level entity representing a company or institution.
+- An **Organizational Unit** represents a department, branch, or team grouping within an Organization, allowing for hierarchical nesting.
 - A **Team** is a permanent or semi-permanent collection of individuals working together.
 - A **TeamMember** represents the association of a Person to a Team, characterized by a specific `role` (e.g., "Developer", "Lead") and a strict time period (`start_date` to `end_date`).
-- A **Initiative** is a specific undertaking or product with a specific lifecycle (`start_date` to `end_date`) and a Type. Teams (not individual persons) are assigned to Initiatives.
+- An **Initiative** is a specific undertaking or product with a specific lifecycle (`start_date` to `end_date`) and a Type. Teams (not individual persons) are assigned to Initiatives.
 
 ### 2.2 Data Dictionary
 
@@ -80,6 +82,24 @@ The system models a corporate environment where human resources are managed thro
 | `status` | String | Default "active" | Valid values: active, completed, archived. |
 | `initiative_type_id` | Integer | FK (InitiativeType) | The type of the initiative. |
 
+#### 2.2.6 Organization
+| Attribute | Type | Constraints | Description |
+|-----------|------|-------------|-------------|
+| `id` | Integer | PK, Auto-Inc | Unique identifier. |
+| `name` | String | Not Null | Entity name. |
+| `description` | Text | Optional | - |
+| `short_name` | String | Unique, Optional | Acronym or slug. |
+
+#### 2.2.7 OrganizationalUnit
+| Attribute | Type | Constraints | Description |
+|-----------|------|-------------|-------------|
+| `id` | Integer | PK, Auto-Inc | Unique identifier. |
+| `name` | String | Not Null | Unit name. |
+| `organization_id` | Integer | FK (Organization) | Parent organization. |
+| `parent_id` | Integer | FK (Unit), Nullable | Hierarchical parent. |
+| `description` | Text | Optional | - |
+| `short_name` | String | Optional | - |
+
 #### 2.2.5 Implementation Strategy
 The entities are implemented using **SQLAlchemy Declarative Models** inheriting from a shared `Base`. This provides a direct mapping between the classes described above and the underlying Relational Database Schema, ensuring the DRY principle is respected.
 
@@ -131,19 +151,32 @@ classDiagram
         +str name
         +str description
         +date start_date
-        +date start_date
         +date end_date
         +int initiative_type_id
         +list[Team] teams
+    }
+
+    class Organization {
+        +int id
+        +str name
+        +str short_name
+    }
+
+    class OrganizationalUnit {
+        +int id
+        +int organization_id
+        +int parent_id
+        +str name
     }
 
     %% Relationships
     Person "1" --> "N" PersonEmail : Has
     Person "1" --> "N" TeamMember : Belongs to
     Team "1" --> "N" TeamMember : Contains
-    Team "1" --> "N" TeamMember : Contains
     Team "N" -- "M" Initiative : Assigned to
     Initiative "N" --> "1" InitiativeType : Has Type
+    Organization "1" --> "N" OrganizationalUnit : Contains
+    OrganizationalUnit "1" --> "N" OrganizationalUnit : Hierarchical Parent
 ```
 
 ### 3.2 Architecture Class Diagram
@@ -176,6 +209,8 @@ classDiagram
         class Team
         class Initiative
         class InitiativeType
+        class Organization
+        class OrganizationalUnit
     }
 
     %% Dependencies
