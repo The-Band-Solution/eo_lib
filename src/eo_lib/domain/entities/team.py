@@ -90,9 +90,9 @@ class TeamMember(Base):
     __tablename__ = "team_members"
 
     id = Column(Integer, primary_key=True, index=True)
-    person_id = Column(Integer, ForeignKey("persons.id"), nullable=False)
-    team_id = Column(Integer, ForeignKey("teams.id"), nullable=False)
-    role_id = Column(Integer, ForeignKey("roles.id"), nullable=True)
+    person_id = Column(Integer, ForeignKey("persons.id"), index=True, nullable=False)
+    team_id = Column(Integer, ForeignKey("teams.id"), index=True, nullable=False)
+    role_id = Column(Integer, ForeignKey("roles.id"), index=True, nullable=True)
     start_date = Column(DateTime, default=func.now())
     end_date = Column(DateTime, nullable=True)
 

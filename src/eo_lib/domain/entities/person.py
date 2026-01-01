@@ -27,7 +27,7 @@ class Person(Base):
     __tablename__ = "persons"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    name = Column(String, nullable=False, index=True)
     identification_id = Column(String, unique=True, index=True, nullable=True)
     birthday = Column(Date, nullable=True)
 

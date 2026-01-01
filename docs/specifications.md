@@ -51,6 +51,19 @@
 | `project_id` | `INTEGER` | `FK(projects.id)`, `PK` | Project Link |
 | `team_id` | `INTEGER` | `FK(teams.id)`, `PK` | Team Link |
 
+### 2.3 Data Indexing Strategy
+To ensure high performance for read operations, the following indexes must be implemented:
+
+| Entity | Indexed Columns | Rationale |
+|--------|-----------------|-----------|
+| **Person** | `name`, `identification_id` | Frequent search by name and ID. |
+| **Team** | `name` | Frequent lookup by name. |
+| **TeamMember** | `role`, `person_id`, `team_id` | optimizing membership queries. FKs usually indexed. |
+| **Initiative** | `name`, `status`, `start_date`, `end_date`, `initiative_type_id` | filtering by status/dates and type. |
+| **InitiativeType** | `name` | Lookup by name. |
+| **Organization** | `name`, `short_name` | Search by names. |
+| **OrganizationalUnit** | `name`, `organization_id`, `parent_id` | Hierarchical queries and name search. |
+
 ## 2. API Specifications (Public Interface)
 
 ### Class: `PersonController`

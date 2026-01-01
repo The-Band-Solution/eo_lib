@@ -32,7 +32,18 @@
 - **FR-05-C**: The system must allow updating a Role.
 - **FR-05-D**: The system must allow deleting a Role.
 
-### FR-06: Configuration
+### FR-06: Organization Management
+- **FR-06-A**: The system must allow creating an Organization with `name`, `description`, and `short_name`.
+- **FR-06-B**: The system must allow listing all Organizations.
+- **FR-06-C**: The system must allow updating Organization metadata.
+
+### FR-07: Organizational Unit Management
+- **FR-07-A**: The system must allow creating an Organizational Unit associated with an Organization.
+- **FR-07-B**: Organizational Units must support a hierarchical structure (`parent_id`).
+- **FR-07-C**: The system must allow listing all Units of an Organization.
+- **FR-07-D**: The system must allow updating Unit metadata and its parent.
+
+### FR-08: Configuration
 - **FR-02-A**: The database connection string must be configurable via Environment Variables or a Config object passed at initialization.
 
 ## 2. Non-Functional Requirements (NFR)
@@ -47,6 +58,7 @@
 
 ### NFR-03: Performance
 - **NFR-03-A**: Database connections must be pooled and managed efficiently (Singleton/Pool).
+- **NFR-03-B**: The system must define indexes for frequently queried columns (e.g., names, foreign keys, status) to optimize read performance.
 
 ## 3. Constraints
 - Must use PostgreSQL.
