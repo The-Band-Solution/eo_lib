@@ -18,6 +18,9 @@ def bump_version(file_path: str, argument: str = "patch"):
     # Check if argument is a specific version (X.Y.Z)
     if re.match(r"^\d+\.\d+\.\d+$", argument):
         new_version = argument
+    elif argument == "latest":
+        print(f"Tag 'latest' detected. Keeping current version in {file_path}.")
+        return
     else:
         major, minor, patch = map(int, match.groups())
 
