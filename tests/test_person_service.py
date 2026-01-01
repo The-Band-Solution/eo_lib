@@ -21,13 +21,17 @@ def test_create_person(service, mock_repo):
     emails = ["test@example.com"]
     ident = "ID123"
     bday = date(1990, 1, 1)
-    expected_person = Person(
-        name=name, emails=emails, identification_id=ident, birthday=bday, id=1
-    )
-    mock_repo.add.return_value = expected_person
+    
+    def simulate_add(person):
+        person.id = 1
+        return None
+    
+    mock_repo.add.side_effect = simulate_add
 
     # Act
-    result = service.create(name, emails, identification_id=ident, birthday=bday)
+    # service.create is now Generic create(entity). 
+    # The test was testing create(name=...), which is now create_with_details
+    result = service.create_with_details(name, emails, identification_id=ident, birthday=bday)
 
     # Assert
     mock_repo.add.assert_called_once()
@@ -42,14 +46,26 @@ def test_get_person_found(service, mock_repo):
     person = Person(name="Alice", emails=["alice@test.com"], id=10)
     mock_repo.get_by_id.return_value = person
 
-    result = service.get(10)
+    result = service.get_by_id(10)
     assert result == person
 
 
 def test_get_person_not_found(service, mock_repo):
     mock_repo.get_by_id.return_value = None
-    with pytest.raises(ValueError, match="Person 999 not found"):
-        service.get(999)
+    # get_by_id from GenericService calls repo.get_by_id. 
+    # If not found, GenericService.get_by_id returns None usually? 
+    # Let's check GenericService implementation.
+    # GenericService.get_by_id implementation: return self._repository.get_by_id(id)
+    # The previous `PersonService.get` raised ValueError.
+    # So using `get_by_id` will return None.
+    # I should update the test expectation OR update PersonService to override get_by_id if strict validation is needed.
+    # But usually service returns None if not found is standard.
+    # However, `update_details` logic does `if not p: raise ValueError`.
+    # Let's standardise on `get_by_id` returns Optional.
+    result = service.get_by_id(999)
+    assert result is None
+    # with pytest.raises(ValueError, match="Person 999 not found"):
+    #     service.get(999)
 
 
 def test_update_person(service, mock_repo):
@@ -57,7 +73,7 @@ def test_update_person(service, mock_repo):
     mock_repo.get_by_id.return_value = original
     mock_repo.update.return_value = None
 
-    result = service.update(1, name="New")
+    result = service.update_details(1, name="New")
 
     mock_repo.update.assert_called_once()
     assert result.name == "New"
@@ -74,7 +90,7 @@ def test_list_persons(service, mock_repo):
     p2 = Person(name="B", emails=["b@b.com"], id=2)
     mock_repo.get_all.return_value = [p1, p2]
 
-    result = service.list()
+    result = service.get_all()
     assert len(result) == 2
     assert result[0] == p1
     assert result[1] == p2

@@ -21,7 +21,7 @@ class PostgresInitiativeTypeRepository(
 
     def get_by_name(self, name: str) -> Optional[InitiativeType]:
         return (
-            self.session.query(InitiativeType)
+            self._session.query(InitiativeType)
             .filter(InitiativeType.name == name)
             .first()
         )

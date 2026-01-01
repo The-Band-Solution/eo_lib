@@ -1,25 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional
 from eo_lib.domain.entities.initiative import Initiative
+from libbase.infrastructure.interface import IRepository as GenericRepositoryInterface
 
 
-class InitiativeRepository(ABC):
-    @abstractmethod
-    def add(self, initiative: Initiative) -> Initiative:
-        pass
+class InitiativeRepository(GenericRepositoryInterface[Initiative]):
+    """
+    Interface for Initiative Repository.
 
-    @abstractmethod
-    def get(self, id: int) -> Optional[Initiative]:
-        pass
-
-    @abstractmethod
-    def list(self) -> List[Initiative]:
-        pass
-
-    @abstractmethod
-    def update(self, initiative: Initiative) -> Initiative:
-        pass
-
-    @abstractmethod
-    def delete(self, id: int) -> None:
-        pass
+    Extends GenericRepositoryInterface to provide specific data access
+    operations for Initiative entities. Inherits standard CRUD functionality.
+    """
+    pass
