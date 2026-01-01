@@ -2,7 +2,7 @@
 Demonstration script for the eo_lib library.
 
 This script showcases the core functionality of the library, including
-Person, Team, and Initiative operations using the Controller facades.
+Organization, Unit, Person, Team, and Initiative operations using the Controller facades.
 It initializes a clean database for each run.
 """
 
@@ -12,7 +12,13 @@ from datetime import date, datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../src"))
 
-from eo_lib import PersonController, TeamController, InitiativeController
+from eo_lib import (
+    PersonController,
+    TeamController,
+    InitiativeController,
+    OrganizationController,
+    OrganizationalUnitController,
+)
 from eo_lib.infrastructure.database.postgres_client import PostgresClient
 from eo_lib.domain.base import Base  # Unified Model Base
 
@@ -33,6 +39,8 @@ def setup_database():
         TeamMember,
         Initiative,
         InitiativeType,
+        Organization,
+        OrganizationalUnit,
     )
 
     from sqlalchemy import text
@@ -53,19 +61,47 @@ def main():
     Executes the demonstration workflow.
 
     Covers:
-    1. Person creation, listing, and updates.
-    2. Team creation and member management.
-    3. Initiative creation and team assignment.
-    4. Cleanup and verification.
+    1. Organization and Organizational Unit operations.
+    2. Person creation, listing, and updates.
+    3. Team creation and member management.
+    4. Initiative creation and team assignment.
+    5. Cleanup and verification.
     """
     try:
         setup_database()
 
+        org_ctrl = OrganizationController()
+        unit_ctrl = OrganizationalUnitController()
         person_ctrl = PersonController()
         team_ctrl = TeamController()
         initiative_ctrl = InitiativeController()
 
-        print("\n--- 1. PERSON OPERATIONS ---")
+        print("\n--- 1. ORGANIZATION OPERATIONS ---")
+        # Create Organization
+        acme = org_ctrl.create_organization(
+            "Acme Corp", description="A global conglomerate", short_name="ACME"
+        )
+        print(f"Organization Created: {acme.name} ({acme.short_name})")
+
+        # Create Organizational Units (Hierarchy)
+        engineering = unit_ctrl.create_unit(
+            "Engineering", organization_id=acme.id, description="R&D and Product"
+        )
+        software_dev = unit_ctrl.create_unit(
+            "Software Development",
+            organization_id=acme.id,
+            parent_id=engineering.id,
+            short_name="SOFT-DEV",
+        )
+        hr = unit_ctrl.create_unit("Human Resources", organization_id=acme.id)
+        
+        print(f"Units Created: {engineering.name}, {software_dev.name} (Parent: {engineering.name}), {hr.name}")
+
+        # List Units
+        all_units = unit_ctrl.get_all()
+        print(f"Total Units in ACME: {len(all_units)}")
+
+        print("\n--- 2. PERSON OPERATIONS ---")
         # Create
         alice = person_ctrl.create_person(
             "Alice Programmer",
@@ -89,10 +125,6 @@ def main():
         )
         print(f"Created Persons: ID {charlie.id} ({charlie.name})")
 
-        # List
-        all_people = person_ctrl.get_all()
-        print(f"Initial People List: {len(all_people)} people found.")
-
         # Update
         updated_bob = person_ctrl.update_person(
             bob.id,
@@ -103,7 +135,7 @@ def main():
             f"Updated Bob: {updated_bob.name} (Emails: {[e.email for e in updated_bob.emails]})"
         )
 
-        print("\n--- 2. TEAM OPERATIONS ---")
+        print("\n--- 3. TEAM OPERATIONS ---")
         # Create Teams
         frontend_team = team_ctrl.create_team("Frontend Team", "Specialized in UI/UX")
         backend_team = team_ctrl.create_team(
@@ -134,7 +166,7 @@ def main():
             f"Backend Team ({len(be_members)} members): {[m.role.name for m in be_members]}"
         )
 
-        print("\n--- 3. INITIATIVE OPERATIONS ---")
+        print("\n--- 4. INITIATIVE OPERATIONS ---")
         # Create Initiative Type
         strategic_type = initiative_ctrl.create_initiative_type(
             "Strategic", "High priority long term"
@@ -142,7 +174,6 @@ def main():
         print(f"Initiative Type Created: {strategic_type['name']}")
 
         # Create Initiative
-        # Note: DTO returns dict, verify struct.
         horizon_initiative = initiative_ctrl.create_initiative(
             "Horizon Initiative",
             description="A futuristic initiative to explore the unknown.",
@@ -152,28 +183,13 @@ def main():
         print(
             f"Initiative Created: {horizon_initiative['name']} (Status: {horizon_initiative['status']})"
         )
-        print(f"Description: {horizon_initiative['description']}")
-        print(f"Type: {horizon_initiative['initiative_type']}")
 
         # Assign Teams to Initiative
         initiative_ctrl.assign_team(horizon_initiative["id"], frontend_team.id)
         initiative_ctrl.assign_team(horizon_initiative["id"], backend_team.id)
         print(f"Teams assigned to {horizon_initiative['name']}.")
 
-        # List Initiative Teams
-        assigned_teams = initiative_ctrl.get_teams(horizon_initiative["id"])
-        print(
-            f"Initiative '{horizon_initiative['name']}' has {len(assigned_teams)} teams."
-        )
-
-        # Update Initiative Status
-        # Update method returns DTO
-        updated_initiative = initiative_ctrl.update_initiative(
-            horizon_initiative["id"], status="In Progress"
-        )
-        print(f"Initiative Status Updated: {updated_initiative['status']}")
-
-        print("\n--- 4. CLEANUP / DELETION ---")
+        print("\n--- 5. CLEANUP / DELETION ---")
         # Delete Charlie
         person_ctrl.delete(charlie.id)
         print(f"Manager (ID {charlie.id}) Deleted.")
@@ -181,12 +197,6 @@ def main():
         # Verify remaining people
         remaining_people = person_ctrl.get_all()
         print(f"Remaining People: {[p.name for p in remaining_people]}")
-
-        # Check Backend Team after member deletion
-        be_members_now = team_ctrl.get_members(backend_team.id)
-        print(
-            f"Backend Team now has {len(be_members_now)} members (Charlie should be gone)."
-        )
 
         print("\n--- DEMO COMPLETED SUCCESSFULLY ---")
 

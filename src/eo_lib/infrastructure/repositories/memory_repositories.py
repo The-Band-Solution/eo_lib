@@ -4,8 +4,18 @@ from eo_lib.domain.repositories import (
     TeamRepositoryInterface,
     InitiativeRepository,
     InitiativeTypeRepository,
+    OrganizationRepositoryInterface,
+    OrganizationalUnitRepositoryInterface,
 )
-from eo_lib.domain.entities import Person, Team, TeamMember, Initiative, InitiativeType
+from eo_lib.domain.entities import (
+    Person,
+    Team,
+    TeamMember,
+    Initiative,
+    InitiativeType,
+    Organization,
+    OrganizationalUnit,
+)
 
 from libbase.infrastructure.memory_repository import GenericMemoryRepository
 
@@ -77,3 +87,25 @@ class InMemoryInitiativeTypeRepository(
 
     def get_by_name(self, name: str) -> Optional[InitiativeType]:
         return next((t for t in self._storage.values() if t.name == name), None)
+
+
+class InMemoryOrganizationRepository(
+    GenericMemoryRepository[Organization], OrganizationRepositoryInterface
+):
+    """
+    In-Memory implementation of the Organization Repository.
+    """
+
+    def __init__(self):
+        super().__init__(Organization)
+
+
+class InMemoryOrgUnitRepository(
+    GenericMemoryRepository[OrganizationalUnit], OrganizationalUnitRepositoryInterface
+):
+    """
+    In-Memory implementation of the Organizational Unit Repository.
+    """
+
+    def __init__(self):
+        super().__init__(OrganizationalUnit)

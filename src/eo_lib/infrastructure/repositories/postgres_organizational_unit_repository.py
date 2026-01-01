@@ -1,0 +1,17 @@
+from eo_lib.domain.entities import OrganizationalUnit
+from eo_lib.domain.repositories import OrganizationalUnitRepositoryInterface
+from libbase.infrastructure.sql_repository import GenericSqlRepository
+from eo_lib.infrastructure.database.postgres_client import PostgresClient
+
+
+class PostgresOrganizationalUnitRepository(
+    GenericSqlRepository[OrganizationalUnit], OrganizationalUnitRepositoryInterface
+):
+    """
+    PostgreSQL implementation of the Organizational Unit Repository.
+    """
+
+    def __init__(self):
+        """Initializes the repository by getting a session from PostgresClient."""
+        client = PostgresClient()
+        super().__init__(client.get_session(), OrganizationalUnit)

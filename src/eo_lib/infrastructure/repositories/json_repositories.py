@@ -6,8 +6,18 @@ from eo_lib.domain.repositories import (
     TeamRepositoryInterface,
     InitiativeRepository,
     InitiativeTypeRepository,
+    OrganizationRepositoryInterface,
+    OrganizationalUnitRepositoryInterface,
 )
-from eo_lib.domain.entities import Person, Team, TeamMember, Initiative, InitiativeType
+from eo_lib.domain.entities import (
+    Person,
+    Team,
+    TeamMember,
+    Initiative,
+    InitiativeType,
+    Organization,
+    OrganizationalUnit,
+)
 
 from libbase.infrastructure.json_repository import GenericJsonRepository
 
@@ -123,3 +133,57 @@ class JsonInitiativeTypeRepository(
         # Inefficient implementation for JSON (O(N))
         all_types = self.list()
         return next((t for t in all_types if t.name == name), None)
+
+
+class JsonOrganizationRepository(
+    GenericJsonRepository[Organization], OrganizationRepositoryInterface
+):
+    """JSON implementation of the Organization Repository."""
+
+    def __init__(self):
+        super().__init__("organizations.json", Organization)
+
+    def _to_obj(self, data: dict) -> Organization:
+        return Organization(
+            name=data["name"],
+            description=data.get("description"),
+            short_name=data.get("short_name"),
+            id=data["id"],
+        )
+
+    def _to_dict(self, obj: Organization) -> dict:
+        return {
+            "id": obj.id,
+            "name": obj.name,
+            "description": obj.description,
+            "short_name": obj.short_name,
+        }
+
+
+class JsonOrgUnitRepository(
+    GenericJsonRepository[OrganizationalUnit], OrganizationalUnitRepositoryInterface
+):
+    """JSON implementation of the Organizational Unit Repository."""
+
+    def __init__(self):
+        super().__init__("organizational_units.json", OrganizationalUnit)
+
+    def _to_obj(self, data: dict) -> OrganizationalUnit:
+        return OrganizationalUnit(
+            name=data["name"],
+            organization_id=data["organization_id"],
+            description=data.get("description"),
+            short_name=data.get("short_name"),
+            parent_id=data.get("parent_id"),
+            id=data["id"],
+        )
+
+    def _to_dict(self, obj: OrganizationalUnit) -> dict:
+        return {
+            "id": obj.id,
+            "name": obj.name,
+            "organization_id": obj.organization_id,
+            "description": obj.description,
+            "short_name": obj.short_name,
+            "parent_id": obj.parent_id,
+        }
