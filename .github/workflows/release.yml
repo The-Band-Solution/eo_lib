@@ -24,6 +24,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install hatch
         
+    - name: Set Release Version (from Tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        TAG_NAME=${GITHUB_REF#refs/tags/}
+        echo "Updating version to $TAG_NAME"
+        python scripts/bump_version.py $TAG_NAME
+        
     - name: Build package
       run: hatch build
       
