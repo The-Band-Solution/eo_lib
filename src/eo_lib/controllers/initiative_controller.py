@@ -1,18 +1,19 @@
 from datetime import datetime
 from typing import List, Optional, Dict, Any
-from eo_lib.services.initiative_service import InitiativeService
-from eo_lib.domain.entities.initiative import Initiative, InitiativeType
+from eo_lib.domain.entities.initiative import Initiative
 from eo_lib.factories import ServiceFactory
+from libbase.controllers.generic_controller import GenericController
 
 
-class InitiativeController:
+class InitiativeController(GenericController[Initiative]):
     """
     Controller for Initiative-related operations.
     Acts as a Facade to the InitiativeService.
     """
 
     def __init__(self):
-        self.service = ServiceFactory.create_initiative_service()
+        service = ServiceFactory.create_initiative_service()
+        super().__init__(service)
 
     def create_initiative(
         self,
@@ -24,18 +25,9 @@ class InitiativeController:
     ) -> Dict[str, Any]:
         """
         Creates a new initiative.
-
-        Args:
-            name (str): The name of the initiative.
-            description (str, optional): Meaningful description.
-            start_date (datetime, optional): Start date.
-            end_date (datetime, optional): End date.
-            initiative_type_name (str, optional): Name of the initiative type.
-
-        Returns:
-            dict: The created initiative details.
+        Wraps service.create_initiative_with_details.
         """
-        initiative = self.service.create_initiative(
+        initiative = self._service.create_initiative_with_details(
             name, description, start_date, end_date, initiative_type_name
         )
         return self._to_dto(initiative)
@@ -45,35 +37,23 @@ class InitiativeController:
     ) -> Dict[str, Any]:
         """
         Creates a new initiative type.
-
-        Args:
-            name (str): The name of the type.
-            description (str, optional): Description of the type.
-
-        Returns:
-            dict: The created type details.
         """
-        itype = self.service.create_initiative_type(name, description)
+        itype = self._service.create_initiative_type(name, description)
         return {"id": itype.id, "name": itype.name, "description": itype.description}
 
     def list_initiatives(self) -> List[Dict[str, Any]]:
         """
         Lists all initiatives.
-
-        Returns:
-            List[dict]: List of initiative DTOs.
         """
-        initiatives = self.service.list_initiatives()
+        # Using generic get_all() from parent
+        initiatives = self.get_all() 
         return [self._to_dto(p) for p in initiatives]
 
     def list_initiative_types(self) -> List[Dict[str, Any]]:
         """
         Lists all initiative types.
-
-        Returns:
-            List[dict]: List of type DTOs.
         """
-        types = self.service.list_initiative_types()
+        types = self._service.list_initiative_types()
         return [
             {"id": t.id, "name": t.name, "description": t.description} for t in types
         ]
@@ -91,7 +71,7 @@ class InitiativeController:
         """
         Updates an existing initiative.
         """
-        initiative = self.service.update_initiative(
+        initiative = self._service.update_initiative_details(
             initiative_id,
             name,
             description,
@@ -105,23 +85,14 @@ class InitiativeController:
     def assign_team(self, initiative_id: int, team_id: int) -> None:
         """
         Assigns a team to an initiative.
-
-        Args:
-            initiative_id (int): Encoded Initiative ID.
-            team_id (int): Encoded Team ID.
         """
-        self.service.assign_team(initiative_id, team_id)
+        self._service.assign_team(initiative_id, team_id)
 
     def get_teams(self, initiative_id: int) -> List[Dict[str, Any]]:
         """
         Lists teams assigned to an initiative.
-
-        Args:
-            initiative_id (int): Initiative ID.
-        Returns:
-            List[dict]: List of Team DTOs.
         """
-        teams = self.service.get_teams(initiative_id)
+        teams = self._service.get_teams(initiative_id)
         return [{"id": t.id, "name": t.name} for t in teams]
 
     def _to_dto(self, initiative: Initiative) -> Dict[str, Any]:

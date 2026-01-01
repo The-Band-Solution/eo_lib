@@ -10,7 +10,13 @@ Follow this workflow ensuring all work adheres to "The Band Project" standards.
 - **features**: Feature/Bugfix branches. Fork/Branch from `developing`.
     - Format: `feat/<name>`, `bugfix/issue-<id>`, `fix/<name>`.
 
-## 2. Definition of Ready (DoR) Check
+## 2. Iteration Cadence
+- **Frequency**: 2 weeks.
+- **Cadence**: 2 interactions per month.
+    - **First Interaction**: Starts on the 1st day of the month.
+    - **Second Interaction**: Starts on the 15th day of the month (Mean).
+
+## 3. Definition of Ready (DoR) Check
 Before moving a task to "In Progress":
 - [ ] **Documentation First**:
     - [ ] Update `docs/*.md` (e.g., `requirements.md`, `sdd.md`) before creating the issue.
@@ -32,7 +38,7 @@ Before moving a task to "In Progress":
         - [ ] **Project**: Must be set to "The Band Project".
     - [ ] **Start**: Begin programming only after issue creation.
 
-## 3. Artifact Maintenance
+## 4. Artifact Maintenance
 Maintain the following artifacts throughout the lifecycle:
 - [ ] `task.md`: For detailed task tracking.
 - [ ] `implementation_plan.md`: For technical planning and review.
@@ -41,12 +47,12 @@ Maintain the following artifacts throughout the lifecycle:
     - Description
     - Commit SHA & Link
 
-## 4. Implementation Standards
+## 5. Implementation Standards
 - [ ] **TDD**: Code must pass all tests.
 - [ ] **Style**: Code must pass `black`, `flake8`, `isort`.
 - [ ] **Business Logic**: All business rules requirements must be satisfied and verified.
 
-## 5. Pull Request Standards
+## 6. Pull Request Standards
 - [ ] **Process**:
     - [ ] Create PR from feature branch targeting `developing`.
     - [ ] **Template**: Use `.github/pull_request_template.md`.
@@ -56,7 +62,7 @@ Maintain the following artifacts throughout the lifecycle:
     - [ ] **How to Test**: Clear steps for verification.
 
 
-## 6. Release Strategy (CD)
+## 7. Release Strategy (CD)
 - [ ] **Promotion**: `developing` -> `main`.
 - [ ] **Trigger**: All tests passed on `developing`.
 - [ ] **Process**:
@@ -64,11 +70,11 @@ Maintain the following artifacts throughout the lifecycle:
     - [ ] Title Format: `release: <description>`.
     - [ ] No direct commits to `main` allowed.
 
-## 7. Merge Standards
+## 8. Merge Standards
 - [ ] **Conflict Free**: PR can be merged if there are no conflicts.
 - [ ] **Cleanup**: Delete the feature branch (locally and remotely) after successful merge.
 
-## 8. Definition of Done (DoD)
+## 9. Definition of Done (DoD)
 - [ ] **Verification**:
     - [ ] Test suite passing.
     - [ ] Linting checks passing.

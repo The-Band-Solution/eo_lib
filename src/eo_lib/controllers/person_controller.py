@@ -1,20 +1,20 @@
 from typing import List
 from eo_lib.factories import ServiceFactory
 from eo_lib.domain.entities.person import Person
+from libbase.controllers.generic_controller import GenericController
 from datetime import date
 
 
-class PersonController:
+class PersonController(GenericController[Person]):
     """
     Controller for Person-related operations.
-
-    Acts as a facade for the PersonService, providing a simple and clean API
-    for external consumers to manage Persons and their associated data.
+    Inherits generic operations from GenericController.
     """
 
     def __init__(self):
         """Initializes the Controller by creating the required PersonService."""
-        self.service = ServiceFactory.create_person_service()
+        service = ServiceFactory.create_person_service()
+        super().__init__(service)
 
     def create_person(
         self,
@@ -25,29 +25,11 @@ class PersonController:
     ) -> Person:
         """
         Creates a new person record.
-
-        Args:
-            name (str): The full name of the person.
-            emails (List[str], optional): List of email addresses. Defaults to None.
-            identification_id (str, optional): Unique ID string. Defaults to None.
-            birthday (date, optional): Date of birth. Defaults to None.
-
-        Returns:
-            Person: The newly created Person entity.
+        Wraps the service's create_with_details method.
         """
-        return self.service.create(name, emails, identification_id, birthday)
-
-    def get_person(self, id: int) -> Person:
-        """
-        Retrieves a person by their ID.
-
-        Args:
-            id (int): The unique ID of the person.
-
-        Returns:
-            Person: The person entity.
-        """
-        return self.service.get(id)
+        # GenericController.create takes an entity.
+        # We use the specific service method here which handles construction.
+        return self._service.create_with_details(name, emails, identification_id, birthday)
 
     def update_person(
         self,
@@ -59,33 +41,6 @@ class PersonController:
     ) -> Person:
         """
         Updates an existing person's details.
-
-        Args:
-            id (int): ID of the person to update.
-            name (str, optional): Updated name. Defaults to None.
-            emails (List[str], optional): Updated list of emails. Defaults to None.
-            identification_id (str, optional): Updated ID string. Defaults to None.
-            birthday (date, optional): Updated birthday. Defaults to None.
-
-        Returns:
-            Person: The updated Person entity.
+        Wraps the service's update_details method.
         """
-        return self.service.update(id, name, emails, identification_id, birthday)
-
-    def delete_person(self, id: int) -> None:
-        """
-        Deletes a person record.
-
-        Args:
-            id (int): ID of the person to delete.
-        """
-        self.service.delete(id)
-
-    def list_persons(self) -> List[Person]:
-        """
-        Retrieves all person records.
-
-        Returns:
-            List[Person]: A list of all Person entities.
-        """
-        return self.service.list()
+        return self._service.update_details(id, name, emails, identification_id, birthday)

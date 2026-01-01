@@ -35,6 +35,15 @@ def setup_database():
         InitiativeType,
     )
 
+    from sqlalchemy import text
+    
+    # Drop legacy tables to clean old schema
+    with client._engine.connect() as conn:
+        conn.execute(text("DROP TABLE IF EXISTS project_teams CASCADE"))
+        conn.execute(text("DROP TABLE IF EXISTS project_persons CASCADE"))
+        conn.execute(text("DROP TABLE IF EXISTS projects CASCADE"))
+        conn.commit()
+
     Base.metadata.drop_all(client._engine)
     Base.metadata.create_all(client._engine)
 
@@ -81,7 +90,7 @@ def main():
         print(f"Created Persons: ID {charlie.id} ({charlie.name})")
 
         # List
-        all_people = person_ctrl.list_persons()
+        all_people = person_ctrl.get_all()
         print(f"Initial People List: {len(all_people)} people found.")
 
         # Update
@@ -166,11 +175,11 @@ def main():
 
         print("\n--- 4. CLEANUP / DELETION ---")
         # Delete Charlie
-        person_ctrl.delete_person(charlie.id)
+        person_ctrl.delete(charlie.id)
         print(f"Manager (ID {charlie.id}) Deleted.")
 
         # Verify remaining people
-        remaining_people = person_ctrl.list_persons()
+        remaining_people = person_ctrl.get_all()
         print(f"Remaining People: {[p.name for p in remaining_people]}")
 
         # Check Backend Team after member deletion
