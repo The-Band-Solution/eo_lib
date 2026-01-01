@@ -1,10 +1,11 @@
 # Project Backlog - Enterprise Ontology Library
 
-This document is automatically synchronized with GitHub Issues. Last updated: 2025-12-31 23:19:01
+This document is automatically synchronized with GitHub Issues. Last updated: 2025-12-31 23:45:00
 
 ## 🚀 Releases
 | PR # | Description | Commit |
 | :--- | :--- | :--- |
+| [#31](https://github.com/The-Band-Solution/eo_lib/commit/f7615c1) | docs: align specifications and agile standards | [f7615c1](https://github.com/The-Band-Solution/eo_lib/commit/f7615c1) |
 | [#30](https://github.com/The-Band-Solution/eo_lib/pull/30) | feat: Organization and Organizational Unit Management | [06e57e3](https://github.com/The-Band-Solution/eo_lib/commit/06e57e3) |
 | [#12](https://github.com/The-Band-Solution/eo_lib/pull/12) | docs: enforce documentation first rule | [afe61e8](https://github.com/The-Band-Solution/eo_lib/commit/afe61e8) |
 | [#11](https://github.com/The-Band-Solution/eo_lib/pull/11) | docs: add Release Strategy to agile standards | [ba98dab](https://github.com/The-Band-Solution/eo_lib/commit/ba98dab) |
@@ -15,7 +16,7 @@ Visão geral de todas as demandas, seus estados e executores.
 
 | # | Status | Title | Executor | Sprint | Milestone |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) | 🟢 | feat: Organization and Organizational Unit Management | antigravity | - | - |
+| [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) | ✅ | feat: Organization and Organizational Unit Management | antigravity | - | - |
 | [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) | 🟢 | refactor: Project to Initiative and add InitiativeType | - | - | - |
 
 ---
@@ -23,10 +24,10 @@ Visão geral de todas as demandas, seus estados e executores.
 ## 📂 Workflow States
 
 ### 🟢 In Progress / Todo
-- [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) **feat: Organization and Organizational Unit Management** (Executor: antigravity)
+- [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) **refactor: Project to Initiative and add InitiativeType** (Executor: -)
 
 ### ✅ Done / Released
-_Nenhuma issue neste estado._
+- [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) **feat: Organization and Organizational Unit Management** (Executor: antigravity)
 
 
 ---
@@ -35,7 +36,7 @@ _Nenhuma issue neste estado._
 Demandas organizadas por ciclos de execução. Uma issue pode aparecer em múltiplos sprints.
 
 ### 🗓️ No Sprint
-- 🟢 [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
+- ✅ [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
 - 🟢 [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) refactor: Project to Initiative and add InitiativeType
 
 ---
@@ -44,7 +45,7 @@ Demandas organizadas por ciclos de execução. Uma issue pode aparecer em múlti
 Grandes entregas e objetivos estratégicos.
 
 ### 🏁 Backlog / No Milestone
-- 🟢 [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
+- ✅ [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
 - 🟢 [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) refactor: Project to Initiative and add InitiativeType
 
 ---
@@ -52,7 +53,7 @@ Grandes entregas e objetivos estratégicos.
 ## 📝 Detailed Backlog
 Detalhamento completo de cada issue.
 
-### [OPEN] [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
+### [CLOSED] [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
 - **Executor**: antigravity
 - **Labels**: 
 - **Milestone**: -
