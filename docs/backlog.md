@@ -1,10 +1,11 @@
 # Project Backlog - Enterprise Ontology Library
 
-This document is automatically synchronized with GitHub Issues. Last updated: 2025-12-31 23:45:00
+This document is automatically synchronized with GitHub Issues. Last updated: 2025-12-31 22:52:00
 
 ## 🚀 Releases
 | PR # | Description | Commit |
 | :--- | :--- | :--- |
+| [v0.3.2](https://github.com/The-Band-Solution/eo_lib/releases/tag/v0.3.2) | release: fix GitHub Packages upload (v0.3.2) | [6a95780](https://github.com/The-Band-Solution/eo_lib/commit/6a95780) |
 | [#31](https://github.com/The-Band-Solution/eo_lib/commit/f7615c1) | docs: align specifications and agile standards | [f7615c1](https://github.com/The-Band-Solution/eo_lib/commit/f7615c1) |
 | [#30](https://github.com/The-Band-Solution/eo_lib/pull/30) | feat: Organization and Organizational Unit Management | [06e57e3](https://github.com/The-Band-Solution/eo_lib/commit/06e57e3) |
 | [#12](https://github.com/The-Band-Solution/eo_lib/pull/12) | docs: enforce documentation first rule | [afe61e8](https://github.com/The-Band-Solution/eo_lib/commit/afe61e8) |
@@ -17,6 +18,7 @@ Visão geral de todas as demandas, seus estados e executores.
 | # | Status | Title | Executor | Sprint | Milestone |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) | ✅ | feat: Organization and Organizational Unit Management | antigravity | - | - |
+| [#30](https://github.com/The-Band-Solution/eo_lib/issues/30) | ✅ | bugfix: fix 404 error on GitHub Packages upload | antigravity | - | - |
 | [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) | 🟢 | refactor: Project to Initiative and add InitiativeType | - | - | - |
 
 ---
@@ -28,6 +30,7 @@ Visão geral de todas as demandas, seus estados e executores.
 
 ### ✅ Done / Released
 - [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) **feat: Organization and Organizational Unit Management** (Executor: antigravity)
+- [#30](https://github.com/The-Band-Solution/eo_lib/issues/30) **bugfix: fix 404 error on GitHub Packages upload** (Executor: antigravity)
 
 
 ---
@@ -37,6 +40,7 @@ Demandas organizadas por ciclos de execução. Uma issue pode aparecer em múlti
 
 ### 🗓️ No Sprint
 - ✅ [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
+- ✅ [#30](https://github.com/The-Band-Solution/eo_lib/issues/30) bugfix: fix 404 error on GitHub Packages upload
 - 🟢 [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) refactor: Project to Initiative and add InitiativeType
 
 ---
@@ -46,6 +50,7 @@ Grandes entregas e objetivos estratégicos.
 
 ### 🏁 Backlog / No Milestone
 - ✅ [#29](https://github.com/The-Band-Solution/eo_lib/issues/29) feat: Organization and Organizational Unit Management
+- ✅ [#30](https://github.com/The-Band-Solution/eo_lib/issues/30) bugfix: fix 404 error on GitHub Packages upload
 - 🟢 [#14](https://github.com/The-Band-Solution/eo_lib/issues/14) refactor: Project to Initiative and add InitiativeType
 
 ---
@@ -72,3 +77,21 @@ Enable the management of organizations and their internal structures (units/depa
 ...
 
 ---
+
+### [CLOSED] [#30](https://github.com/The-Band-Solution/eo_lib/issues/30) bugfix: fix 404 error on GitHub Packages upload
+- **Executor**: antigravity
+- **Labels**: 
+- **Milestone**: -
+
+**Description**:
+## Description
+The release workflow fails with a 404 error during the upload to GitHub Packages (PyPI).
+This is likely due to the trailing slash in the `--repository-url` or the specific construction of the URL.
+
+## Objective
+Fix the PyPI upload URL in `.github/workflows/release.yml`.
+
+## Tasks
+- [x] Update `release.yml` with correct URL format
+- [x] Push changes to `main`
+- [x] Verify release on next tag push
