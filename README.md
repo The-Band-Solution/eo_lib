@@ -1,13 +1,14 @@
 # Enterprise Ontology Library
 
-**Enterprise Ontology Library** is a robust, strictly architectural Python library designed for managing **Persons**, **Teams**, and **Projects**. It serves as a reference implementation for **Clean Architecture**, **Spec-Driven Development**, **TDD**, and **DRY** principles in Python.
+**Enterprise Ontology Library** is a robust, strictly architectural Python library designed for managing **Persons**, **Teams**, and **Initiatives**. It serves as a reference implementation for **Clean Architecture**, **Spec-Driven Development**, **TDD**, and **DRY** principles in Python, leveraging a generic core implementation (`libbase`).
 
 ## 🌟 Features
 
 *   **Strict Architecture**: Layered design with Controllers (Facade), Services (Logic), Repositories (Persistence), and Unified Domain Models.
+*   **Generic Patterns**: Built on top of `libbase` for reusable generic Service, Controller, and Repository patterns.
 *   **DRY (Don't Repeat Yourself)**: Domain Entities and ORM Models are valid as a single unified class (SQLAlchemy Declarative).
 *   **CRUD+L**: Full support for Create, Read, Update, Delete, and List operations.
-*   **Relational Domain**: Complex relationships (One-to-Many, Many-to-Many) between Persons, Teams, and Projects.
+*   **Relational Domain**: Complex relationships (One-to-Many, Many-to-Many) between Persons, Teams, and Initiatives.
 *   **Database Agnostic**: Built on SQLAlchemy. Supports PostgreSQL (Production) and SQLite (Testing/Dev).
 *   **Fully Documented**: Comprehensive documentation and docstrings.
 *   **Test Driven**: 100% Service layer coverage with `pytest`.
@@ -26,8 +27,8 @@ You can install `eo_lib` directly from our official releases without cloning the
     Download and install the latest wheel (`.whl`) from our [GitHub Releases](https://github.com/The-Band-Solution/eo_lib/releases):
 
     ```bash
-    # Install version v0.1.4
-    pip install https://github.com/The-Band-Solution/eo_lib/releases/download/v0.1.4/eo_lib-0.1.4-py3-none-any.whl
+    # Install version v0.2.0
+    pip install https://github.com/The-Band-Solution/eo_lib/releases/download/v0.2.0/eo_lib-0.2.0-py3-none-any.whl
     ```
 
 ### Development Setup (Clone)
@@ -65,7 +66,7 @@ DATABASE_URL=sqlite:///./eo_lib.db
 
 ## 🚀 Usage
 
-The library exposes **Controllers** as the public API.
+The library exposes **Generic Controllers** as the public API.
 
 ### 1. Person Management
 ```python
@@ -76,15 +77,16 @@ ctrl = PersonController()
 # Create
 alice = ctrl.create_person("Alice", ["alice@example.com", "alice.work@example.com"])
 
-# Update
+# Update (Generic API)
+# Uses update_details wrapper internally or generic update
 ctrl.update_person(alice.id, name="Alice Cooper", emails=["new.email@example.com"])
 
-# Get & List
-p = ctrl.get_person(alice.id)
-all_people = ctrl.list_persons()
+# Get & List (Generic API)
+p = ctrl.get_by_id(alice.id)
+all_people = ctrl.get_all()
 
-# Delete
-ctrl.delete_person(alice.id)
+# Delete (Generic API)
+ctrl.delete(alice.id)
 ```
 
 ### 2. Team Management
@@ -107,26 +109,30 @@ member = ctrl.add_member(
 
 # Get Members
 members = ctrl.get_members(team.id)
+
+# Generic List
+all_teams = ctrl.get_all()
 ```
 
-### 3. Project Management
+### 3. Initiative Management
 ```python
-from eo_lib import ProjectController
+from eo_lib import InitiativeController
 
-ctrl = ProjectController()
+ctrl = InitiativeController()
 
-# Create Project
-proj = ctrl.create_project(
+# Create Initiative
+init = ctrl.create_initiative(
     name="Moon Mission",
     description="Exploring the lunar surface.",
-    start_date=date.today()
+    start_date=date.today(),
+    initiative_type_name="Strategic"
 )
 
-# Assign Team to Project
-ctrl.assign_team(proj.id, team_id=1)
+# Assign Team to Initiative
+ctrl.assign_team(init.id, team_id=1)
 
-# List Projects
-projects = ctrl.list_projects()
+# List Initiatives (Generic API)
+initiatives = ctrl.get_all()
 ```
 
 ## 🧪 Testing
