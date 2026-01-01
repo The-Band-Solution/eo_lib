@@ -66,13 +66,13 @@ class Initiative(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True, nullable=False)
-    status = Column(String, default="active")
+    status = Column(String, default="active", index=True)
     description = Column(Text, nullable=True)
-    start_date = Column(DateTime, nullable=True)
-    end_date = Column(DateTime, nullable=True)
+    start_date = Column(DateTime, nullable=True, index=True)
+    end_date = Column(DateTime, nullable=True, index=True)
 
     initiative_type_id = Column(
-        Integer, ForeignKey("initiative_types.id"), nullable=True
+        Integer, ForeignKey("initiative_types.id"), index=True, nullable=True
     )
     organization_id = Column(Integer, ForeignKey("organizations.id"), nullable=True)
     parent_id = Column(Integer, ForeignKey("initiatives.id"), nullable=True)

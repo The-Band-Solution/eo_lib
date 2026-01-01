@@ -31,8 +31,8 @@ class OrganizationalUnit(Base):
     description = Column(Text, nullable=True)
     short_name = Column(String, index=True, nullable=True)
 
-    organization_id = Column(Integer, ForeignKey("organizations.id"), nullable=False)
-    parent_id = Column(Integer, ForeignKey("organizational_units.id"), nullable=True)
+    organization_id = Column(Integer, ForeignKey("organizations.id"), index=True, nullable=False)
+    parent_id = Column(Integer, ForeignKey("organizational_units.id"), index=True, nullable=True)
 
     # Relationships
     organization = relationship("Organization", back_populates="units")
